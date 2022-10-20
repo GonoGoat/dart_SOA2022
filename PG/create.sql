@@ -9,6 +9,9 @@ CREATE TABLE users (
 CREATE TABLE instruments (
     i_id SERIAL PRIMARY KEY, -- Instrument ID
     i_name VARCHAR(50) NOT NULL -- Instrument name
+    i_i_id INT, -- Instrument category
+    
+    CONSTRAINT fk_i_i_id FOREIGN KEY (i_i_id) REFERENCES instruments(i_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 CREATE TABLE sm (
     s_id SERIAL PRIMARY KEY, -- SM ID
@@ -45,16 +48,18 @@ CREATE TABLE alerts (
     CONSTRAINT fk_a_u_id FOREIGN KEY (a_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE requests (
-    r_id SERIAL PRIMARY KEY, -- Request ID
     r_u_id INT NOT NULL, -- Rceiver of the request
     r_g_id INT NOT NULL, -- Group of the group to be joined
 
     CONSTRAINT fk_r_u_id FOREIGN KEY (r_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_r_g_id FOREIGN KEY (r_g_id) REFERENCES groups(g_id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT fk_r_g_id FOREIGN KEY (r_g_id) REFERENCES groups(g_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (r_g_id,r_u_id)
 );
 CREATE TABLE groups_users (
     gu_g_id INT NOT NULL, -- Group ID
     gu_u_id INT NOT NULL, -- Member ID
 
-   PRIMARY KEY (gu_g_id,gu_u_id)
+    CONSTRAINT fk_gu_u_id FOREIGN KEY (gu_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_gu_g_id FOREIGN KEY (gu_g_id) REFERENCES groups(g_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (gu_g_id,gu_u_id)
 );
