@@ -9,26 +9,18 @@ CREATE TABLE users (
 CREATE TABLE instruments (
     i_id SERIAL PRIMARY KEY, -- Instrument ID
     i_name VARCHAR(50) NOT NULL -- Instrument name
-    i_i_id INT, -- Instrument category
-    
-    CONSTRAINT fk_i_i_id FOREIGN KEY (i_i_id) REFERENCES instruments(i_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 CREATE TABLE sm (
     s_id SERIAL PRIMARY KEY, -- SM ID
     s_name VARCHAR(50) NOT NULL, -- SM name
-    s_file varchar(100) NOT NULL, -- SM file location
-    s_i_id INT NOT NULL, -- SM instrument type
-
-    CONSTRAINT fk_s_i_id FOREIGN KEY (s_i_id) REFERENCES instruments(i_id) ON DELETE CASCADE ON UPDATE CASCADE
+    s_file varchar(100) NOT NULL -- SM file location
 );
 CREATE TABLE groups (
     g_id SERIAL PRIMARY KEY, -- Group ID
     g_name VARCHAR(50) NOT NULL, -- Group name
     g_u_id INT NOT NULL, -- Group owner
-    g_s_id INT, -- Group favorite SM
 
-    CONSTRAINT fk_g_u_id FOREIGN KEY (g_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_g_s_id FOREIGN KEY (g_s_id) REFERENCES sm(s_id) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT fk_g_u_id FOREIGN KEY (g_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE news (
     n_id SERIAL PRIMARY KEY, -- News ID
@@ -62,4 +54,21 @@ CREATE TABLE groups_users (
     CONSTRAINT fk_gu_u_id FOREIGN KEY (gu_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_gu_g_id FOREIGN KEY (gu_g_id) REFERENCES groups(g_id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (gu_g_id,gu_u_id)
+);
+
+CREATE TABLE groups_sm (
+    gs_g_id INT NOT NULL, -- Group ID
+    gs_s_id INT NOT NULL, -- Group favorite SM ID
+
+    CONSTRAINT fk_gs_g_id FOREIGN KEY (gs_g_id) REFERENCES groups(g_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_gs_s_id FOREIGN KEY (gs_s_id) REFERENCES sm(s_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (gs_g_id,gs_s_id)
+);
+CREATE TABLE sm_instruments (
+    si_i_id INT NOT NULL, -- Instrument ID
+    si_s_id INT NOT NULL, -- SM ID
+
+    CONSTRAINT fk_si_i_id FOREIGN KEY (si_i_id) REFERENCES instruments(i_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_si_s_id FOREIGN KEY (si_s_id) REFERENCES sm(s_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (si_i_id,si_s_id)
 );
