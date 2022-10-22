@@ -12,8 +12,8 @@ CREATE TABLE instruments (
 );
 CREATE TABLE sm (
     s_id SERIAL PRIMARY KEY, -- SM ID
-    s_name VARCHAR(50) NOT NULL, -- SM name
-    s_file varchar(100) NOT NULL -- SM file location
+    s_name VARCHAR(150) NOT NULL, -- SM name
+    s_file varchar(100) UNIQUE NOT NULL -- SM file location
 );
 CREATE TABLE groups (
     g_id SERIAL PRIMARY KEY, -- Group ID
