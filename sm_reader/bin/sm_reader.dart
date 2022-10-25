@@ -3,7 +3,7 @@ import 'package:sm_reader/auth.dart' as auth;
 void main(List<String> arguments) {
   print("=====================================================");
   print("\nWelcome to SM Reader !");
-  var isConnected = false;
+  /*var isConnected = false;
   while(true) {
     if (!isConnected) {
       isConnected = auth.register();
@@ -11,5 +11,6 @@ void main(List<String> arguments) {
     else {
       auth.login();
     }
-  }
+  }*/
+  auth.login();
 }
