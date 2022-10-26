@@ -6,6 +6,7 @@ import 'package:sm_reader/Groups/Group.dart' as Group;
 import 'package:sm_reader/News/New.dart' as New;
 
 void main(List<String> arguments) {
+  String menu;
   print("=====================================================");
   print("\nWelcome to SM Reader !");
   /*var isConnected = false;
@@ -17,18 +18,24 @@ void main(List<String> arguments) {
       auth.login();
     }
   }*/
-  print("Choisiser Auth 'A', Group 'G' ou New 'N'\n");
-  String menu = stdin.readLineSync()!;
-  switch (menu) {
-    case 'A':
-      auth.login();
-      break;
-    case 'G':
-      Group.Start();
-      break;
-    case 'N':
-      New.Start();
-      break;
-    default:
-  }
+  do {
+    print("Choisiser Auth 'A', Group 'G' ou New 'N' et pour quitter 'E'\n");
+    menu = stdin.readLineSync()!;
+    switch (menu) {
+      case 'A':
+        auth.login();
+        break;
+      case 'G':
+        Group.Start();
+        break;
+      case 'N':
+        New.Start();
+        break;
+      case 'E':
+        break;
+      default:
+        print("Choix non valide");
+        sleep(Duration(seconds: 1));
+    }
+  } while (menu != 'E');
 }
