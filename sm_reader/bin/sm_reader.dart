@@ -1,11 +1,10 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:sm_reader/auth.dart' as auth;
 import 'package:sm_reader/Groups/Group.dart' as Group;
 import 'package:sm_reader/News/New.dart' as New;
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   String menu;
   print("=====================================================");
   print("\nWelcome to SM Reader !");
@@ -23,7 +22,7 @@ void main(List<String> arguments) {
     menu = stdin.readLineSync()!;
     switch (menu) {
       case 'A':
-        auth.login();
+        await auth.login();
         break;
       case 'G':
         Group.Start();

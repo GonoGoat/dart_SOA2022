@@ -15,7 +15,7 @@ bool register() {
   return false;
 }
 
-void login() async {
+Future login() async {
   var url = Uri.http('localhost:3000', '/users');
   var response = await http.get(url);
   var res = jsonDecode(response.body);
