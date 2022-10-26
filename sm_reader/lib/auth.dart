@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import "dart:io";
 
@@ -16,5 +18,6 @@ bool register() {
 void login() async {
   var url = Uri.http('localhost:3000', '/users');
   var response = await http.get(url);
-  print(response.body);
+  var res = jsonDecode(response.body);
+  res.forEach((obj) => print(obj['u_id']));
 }
