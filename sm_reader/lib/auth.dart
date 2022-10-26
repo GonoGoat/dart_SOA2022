@@ -7,7 +7,7 @@ bool register() {
   print("Enter 0 to access the app");
   int? number = int.parse(stdin.readLineSync()!);
   print('You entered ${number}');
-  if(number == 0) {
+  if (number == 0) {
     print('logged in');
     return true;
   }

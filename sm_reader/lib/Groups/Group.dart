@@ -4,7 +4,7 @@ import 'dart:io';
 var members = ["Thomas", "Gauthier", "Jean", "Sebastien"];
 var users = ["John", "Mathis", "Alice", "Bob"];
 
-void main() async {
+void Start() async {
   String b;
   do {
     print("Pour quitter taper 'E'\n");

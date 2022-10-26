@@ -7,11 +7,7 @@ var news = [
   ["3", "Vide", "Ceci est un texte vide"]
 ];
 
-void main() {
-  News();
-}
-
-void News() {
+void Start() {
   int a = 0;
   int b = 0;
 
