@@ -16,7 +16,7 @@ void main(List<String> arguments) async {
         await auth.login();
         break;
       case 'G':
-        Group.Start();
+        await Group.Start();
         break;
       case 'N':
         New.Start();

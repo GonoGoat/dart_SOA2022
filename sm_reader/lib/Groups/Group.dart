@@ -1,43 +1,70 @@
-//import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
-var members = ["Thomas", "Gauthier", "Jean", "Sebastien"];
-var users = ["John", "Mathis", "Alice", "Bob"];
+Future Start() async {
+  int group;
+  do {
+    var url = Uri.http('localhost:3000', '/groups');
+    var response = await http.get(url);
+    print(response.body);
+    //var res = jsonDecode(response.body);
+    print("sorti ici");
 
-void Start() async {
+    /*res.forEach((obj) => print(
+        "Group ID : " + obj['g_id'] + " Group name : " + obj['g_name'] + "\n"));*/
+
+    print(
+        "Enter '0' to leave the section Groups or Enter the ID of the group you want\n");
+    group = int.parse(stdin.readLineSync()!);
+    if (group != 0) {
+      Selection(group);
+    }
+  } while (group != 0);
+}
+
+void Selection(int group) async {
   String b;
   do {
-    print("Pour quitter taper 'E'\n");
-    print("Pour afficher les membres taper 'M', les utilisateurs taper 'U'\n");
+    final groups = {'select': group};
+    var url = Uri.http('localhost:3000', '/groups/detail', groups);
+    var response = await http.get(url);
+    var res = jsonDecode(response.body);
+
+    print("Enter 'E' to leave the section Details\n");
+    print("To see members of the group enter 'M', for users enter 'U'\n");
     b = stdin.readLineSync()!;
     switch (b) {
       case 'M':
         List_member();
         break;
       case 'U':
-        List_user();
+        //List_user();
         break;
       case 'E':
         break;
       default:
-        print(
-            "Entrer non valide veuillez respecter les instructions suivantes : \n");
+        print("Enter unrecognised, please follow the instructions :  \n");
         sleep(Duration(seconds: 2));
     }
   } while (b != 'E');
 }
 
-void List_member() {
-  int row = members.length;
+void List_member() async {
+  var url_2 = Uri.http('localhost:3000', '/groups/list_member');
+  var response_2 = await http.get(url_2);
+  var res_2 = jsonDecode(response_2.body);
 
-  print("Membres du groupe : \n");
+  print("Membres du groupe " + res_2['g_name'] + " : \n");
 
-  for (int i = 0; i < row; i++) {
-    print(members[i] + "\n");
-  }
+  res_2.forEach((member) => print("Firstname : " +
+      member['u_fname'] +
+      " Last name : " +
+      member['u_lname'] +
+      "\n"));
 }
 
-void List_user() {
+/*void List_user() {
   int row = users.length;
   String add;
 
@@ -66,7 +93,7 @@ void Add_member() {
   int id = int.parse(stdin.readLineSync()!);
   members.add(users[id]);
   List_member();
-}
+}*/
 
 /*Future Get_members() async {
   var url = Uri.http('localhost:5432', '/');
