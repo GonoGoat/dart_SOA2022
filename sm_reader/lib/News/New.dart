@@ -32,20 +32,22 @@ Future Details() async {
   print("Enter the ID you want details or 0 to leave the section News");
   select_news = int.parse(stdin.readLineSync()!);
   if (select_news > 0 && select_news <= limit) {
-    final detail = {'select': select_news};
+    final detail = {'select': select_news.toString()};
 
     var url = Uri.http('localhost:3000', '/news/detail', detail);
     var response = await http.get(url);
     var res = jsonDecode(response.body);
 
-    print("News ID : " +
-        res['n_id'].toString() +
+    res.forEach((news_detail) => print("News ID : " +
+        news_detail['n_id'].toString() +
         " Title : " +
-        res['n_title'] +
+        news_detail['n_title'] +
         "\n" +
         "Create on :" +
-        res['n_date'] +
+        news_detail['n_date'] +
         "\n" +
-        res['n_text']);
+        news_detail['n_text']));
+    print("Press enter to come back");
+    stdin.readLineSync();
   }
 }
