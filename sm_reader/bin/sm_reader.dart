@@ -19,7 +19,7 @@ void main(List<String> arguments) async {
         await Group.Start();
         break;
       case 'N':
-        New.Start();
+        await New.Start();
         break;
       case 'E':
         break;
