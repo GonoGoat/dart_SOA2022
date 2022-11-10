@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:sm_reader/Auth/Auth.dart' as auth;
-import 'package:sm_reader/Groups/Group.dart' as Group;
-import 'package:sm_reader/News/New.dart' as New;
-import 'package:sm_reader/Notifications/Notification.dart' as Notification;
+import 'package:sm_reader/Groups/Group.dart' as group;
+import 'package:sm_reader/News/New.dart' as news;
+import 'package:sm_reader/Notifications/Notification.dart' as notification;
 
 void main(List<String> arguments) async {
   String menu;
@@ -18,13 +18,13 @@ void main(List<String> arguments) async {
         await auth.login();
         break;
       case 'G':
-        await Group.Start();
+        await group.Start();
         break;
       case 'N':
-        await New.Start();
+        await news.Start();
         break;
       case 'O':
-        await Notification.Start();
+        await notification.Start();
         break;
       case 'E':
         break;

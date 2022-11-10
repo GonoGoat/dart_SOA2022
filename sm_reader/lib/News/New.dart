@@ -7,12 +7,12 @@ int select_news = 0;
 
 Future Start() async {
   do {
-    await List();
-    Details();
+    await List_New();
+    await Details();
   } while (select_news != 0);
 }
 
-Future List() async {
+Future List_New() async {
   limit = 0;
 
   var url = Uri.http('localhost:3000', '/news');
@@ -37,8 +37,11 @@ Future Details() async {
     var url = Uri.http('localhost:3000', '/news/detail', detail);
     var response = await http.get(url);
     var res = jsonDecode(response.body);
+    assert(res is List);
+    var news_detail = res[0];
+    assert(news_detail is Map);
 
-    res.forEach((news_detail) => print("News ID : " +
+    print("News ID : " +
         news_detail['n_id'].toString() +
         " Title : " +
         news_detail['n_title'] +
@@ -46,7 +49,7 @@ Future Details() async {
         "Create on :" +
         news_detail['n_date'] +
         "\n" +
-        news_detail['n_text']));
+        news_detail['n_text']);
     print("Press enter to come back");
     stdin.readLineSync();
   }
