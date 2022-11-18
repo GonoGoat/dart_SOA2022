@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
   /* GET detail for a News*/
   router.get('/detail', async(req, res, next) =>{
     const query={
-        text:'SELECT n_id, n_title,n_date,n_text FROM news WHERE n_id=$1',
+        text:'SELECT n_id, n_title,to_char(n_date,\'DD-MM-YYYY HH24:MI\') as n_date,n_text FROM news WHERE n_id=$1',
         values:[req.query.select],
     }
     pool.query(query,(err,rows) =>  {
