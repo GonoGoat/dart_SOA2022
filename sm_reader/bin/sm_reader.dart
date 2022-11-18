@@ -10,7 +10,7 @@ void main(List<String> arguments) async {
   print("=====================================================");
   print("\nWelcome to SM Reader !");
   do {
-    if (user == null || !user.isadmin ) {
+    if (user == null) {
       print("What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n");
       menu = stdin.readLineSync()!;
       switch (menu) {
@@ -18,7 +18,7 @@ void main(List<String> arguments) async {
           await auth.register();
           break;
         case 'L':
-          Group.Start();
+          user = await auth.login();
           break;
         case 'S':
           Group.Start();
@@ -31,11 +31,11 @@ void main(List<String> arguments) async {
       }
     }
     else {
-      print("Choisiser Auth 'A', Group 'G' ou New 'N' et pour quitter 'E'\n");
+      print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\nYou can also press 'E' to leave");
       menu = stdin.readLineSync()!;
       switch (menu) {
-        case 'A':
-          await auth.login();
+        case 'L':
+          user = await auth.logout() ? null : user;
           break;
         case 'G':
           Group.Start();

@@ -4,7 +4,6 @@ var pool = require('../db.js');
 
 /* GET users listing. */
 router.post('/signup', function(req, res, next) {
-  console.log(req.body);
   pool.query ('select * from users where u_mail = $1',[req.body.mail.toLowerCase()], (err,rows) => {
     if (err) throw err;
     if (rows.rows.length > 0) {
@@ -21,12 +20,14 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-  pool.query ('select u_id,u_isadmin from users where u_mail = $1 and u_password = $2',[req.body.mail,req.body.password], async (err,rows) => {
-    if (err) return errors(res,err);
+  pool.query ('select u_id,u_isadmin,u_fname,u_lname from users where u_mail = $1 and u_password = $2',[req.body.mail,req.body.password], async (err,rows) => {
+    if (err) throw err;
     if (rows.rows.length > 0) {
       return res.send({
         isadmin : rows.rows[0].u_isadmin,
-        id : rows.rows[0].u_id
+        id : rows.rows[0].u_id,
+        fname : rows.rows[0].u_fname,
+        lname : rows.rows[0].u_lname
       })
     }
     else {
