@@ -28,23 +28,24 @@ router.get('/', function(req, res, next) {
 /*Accept Invitation -> ADD in groups_users and DEL in requests*/
   router.post('/invite/accept', async(req, res, next) => {
     const query_insert={
-        text : 'INSERT INTO groups_users (r_u_id,r_g_id) VALUES($1,$2)',
+        text : 'INSERT INTO groups_users (gu_u_id,gu_g_id) VALUES($1,$2)',
         values : [req.query.user,req.query.group]
       }
-    const query_delete={
+   /* const query_delete={
       text : 'DELETE FROM requests WHERE r_u_id = $1 AND r_g_id = $2',
       values : [req.query.user,req.query.group]
-    }
+    }*/
     pool.query(query_insert,(err,rows) =>  {
-    })
-    pool.query(query_delete,(err,rows) =>  {
-      //if (err) return errors(res,err);
       return res.send("Invitation has been succesfully accepted");
     })
+    /*pool.query(query_delete,(err,rows) =>  {
+      //if (err) return errors(res,err);
+      return res.send("Invitation has been succesfully accepted");
+    })*/
   });
 
   /*Decline Invitation */
-  router.post('/invite/delete', async(req, res, next) => {
+  router.delete('/invite/delete', async(req, res, next) => {
     const query_delete={
       text : 'DELETE FROM requests WHERE r_u_id=$1 AND r_g_id=$2',
       values : [req.query.user,req.query.group]

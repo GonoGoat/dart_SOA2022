@@ -70,6 +70,13 @@ Future List_Invite() async {
       obj['g_name'] +
       "\n"));
 
+  if (limit == 0) {
+    print("Nothing to show");
+    print("Press enter to come back");
+    stdin.readLineSync()!;
+    return 0;
+  }
+
   await Response_Invite();
 }
 
@@ -109,8 +116,10 @@ Future Accept_Invite(int choice) async {
     'group': selected['g_id'].toString()
   };
 
-  var response = await http
-      .post(Uri.http('localhost:3000', '/notifications/accept/', answer));
+  var response = await http.post(
+      Uri.http('localhost:3000', '/notifications/invite/accept/', answer));
+  await http.delete(
+      Uri.http('localhost:3000', '/notifications/invite/delete/', answer));
   print(response.body + "\n");
   sleep(Duration(seconds: 1));
 }
@@ -125,8 +134,8 @@ Future Decline_Invite(int choice) async {
     'group': selected['g_id'].toString()
   };
 
-  var response = await http
-      .post(Uri.http('localhost:3000', '/notifications/delete/', answer));
+  var response = await http.delete(
+      Uri.http('localhost:3000', '/notifications/invite/delete/', answer));
   print(response.body + "\n");
   sleep(Duration(seconds: 1));
 }
