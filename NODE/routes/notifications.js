@@ -5,7 +5,7 @@ var pool = require('../db.js');
 /* GET Notification listing */
 router.get('/', function(req, res, next) {
     const query={
-        text : 'SELECT a_date, a_text FROM alerts',
+        text : 'SELECT to_char(a_date,\'DD-MM-YYYY HH24:MI\') as a_date, a_text FROM alerts',
       }
     pool.query(query,(err,rows) =>  {
       if (err) return errors(res,err);
