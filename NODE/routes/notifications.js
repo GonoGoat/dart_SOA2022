@@ -8,8 +8,13 @@ router.get('/', function(req, res, next) {
         text : 'SELECT to_char(a_date,\'DD-MM-YYYY HH24:MI\') as a_date, a_text FROM alerts',
       }
     pool.query(query,(err,rows) =>  {
-      if (err) return errors(res,err);
-      return res.send(rows.rows);
+      if (err) throw err;
+      if(rows.rows.length>0){
+        return res.send(rows.rows);
+      }
+      else{
+        return res.send("");
+      }
     })
   });
 
@@ -20,8 +25,13 @@ router.get('/', function(req, res, next) {
         values : [req.query.user]
       }
     pool.query(query,(err,rows) =>  {
-      if (err) return errors(res,err);
-      return res.send(rows.rows);
+      if (err) throw err;
+      if(rows.rows.length>0){
+        return res.send(rows.rows);
+      }
+      else{
+        return res.send("");
+      }
     })
   });
 

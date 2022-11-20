@@ -8,8 +8,13 @@ router.get('/', function(req, res, next) {
         text : 'SELECT n_id, n_title FROM news',
       }
     pool.query(query,(err,rows) =>  {
-      if (err) return errors(res,err);
-      return res.send(rows.rows);
+      if (err) throw err;
+      if(rows.rows.length>0){
+        return res.send(rows.rows);
+      }
+      else{
+        return res.send("");
+      }
     })
   });
 
@@ -20,8 +25,13 @@ router.get('/', function(req, res, next) {
         values:[req.query.select],
     }
     pool.query(query,(err,rows) =>  {
-      if (err) return errors(res,err);
-      return res.send(rows.rows);
+      if (err) throw err;
+      if(rows.rows.length>0){
+        return res.send(rows.rows);
+      }
+      else{
+        return res.send("");
+      }
     })
   });
 

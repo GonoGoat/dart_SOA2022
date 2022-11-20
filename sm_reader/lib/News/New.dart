@@ -17,12 +17,19 @@ Future List_New() async {
 
   var url = Uri.http('localhost:3000', '/news');
   var response = await http.get(url);
+
+  if (response.body == "") {
+    print("Nothing to Show\nPress Enter to continue");
+    stdin.readLineSync();
+    return 0;
+  }
+
   var res = jsonDecode(response.body);
 
   print("News : \n");
 
-  res.forEach((news) => print("News ID : " +
-      (limit = news['n_id']).toString() +
+  res.forEach((news) => print("\tNews ID : " +
+      (limit += 1).toString() +
       " Title : " +
       news['n_title'] +
       "\n"));
@@ -36,19 +43,24 @@ Future Details() async {
 
     var url = Uri.http('localhost:3000', '/news/detail', detail);
     var response = await http.get(url);
+
+    if (response.body == "") {
+      print("Nothing to Show\nPress Enter to continue");
+      stdin.readLineSync();
+      return 0;
+    }
+
     var res = jsonDecode(response.body);
     assert(res is List);
     var news_detail = res[0];
     assert(news_detail is Map);
 
-    print("News ID : " +
-        news_detail['n_id'].toString() +
-        " Title : " +
+    print("News Title : " +
         news_detail['n_title'] +
         "\n" +
         "Create on :" +
         news_detail['n_date'] +
-        "\n" +
+        "\n\t" +
         news_detail['n_text']);
     print("Press enter to come back");
     stdin.readLineSync();

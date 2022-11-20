@@ -27,7 +27,7 @@ Future Start() async {
     user = {'user': curent_user.toString()};
 
     print(
-        "Enter 'N' to see Notification, 'I' to see Invitation and 'E' to Exit");
+        "Enter \n\tN : to see Notification\n\tI : to see Invitation\n\tE : to Exit");
     enter = stdin.readLineSync()!;
     switch (enter) {
       case 'N':
@@ -40,7 +40,8 @@ Future Start() async {
         break;
       default:
         print("Enter unrecognised, please follow the instructions :  \n");
-        sleep(Duration(seconds: 1));
+        print("Press Enter to continue");
+        stdin.readLineSync();
     }
   } while (enter != 'E');
 }
@@ -48,34 +49,48 @@ Future Start() async {
 Future List_Notification() async {
   var url = Uri.http('localhost:3000', '/notifications');
   var response = await http.get(url);
+
+  if (response.body == "") {
+    print("Nothing to Show\nPress Enter to continue");
+    stdin.readLineSync();
+    return 0;
+  }
+
   var res = jsonDecode(response.body);
 
-  res.forEach((obj) => print("Notification Date : " +
+  print("List of notification\n");
+
+  res.forEach((obj) => print("\tDate : " +
       obj['a_date'].toString() +
       "\n Text : \n" +
       obj['a_text'] +
       "\n\n"));
+
+  print("Press enter to come back");
+  stdin.readLineSync();
 }
 
 Future List_Invite() async {
   limit = 0;
 
-  var url = Uri.http('localhost:3000', '/notifications/invite/', user);
+  var url = Uri.http('localhost:3000', '/notifications/invite', user);
   var response = await http.get(url);
+
+  if (response.body == "") {
+    print("Nothing to Show\nPress Enter to continue");
+    stdin.readLineSync();
+    return 0;
+  }
+
   invite = jsonDecode(response.body);
 
-  invite.forEach((obj) => print("Invitation number : " +
+  print("List of Invitation\n");
+
+  invite.forEach((obj) => print("\tInvitation number : " +
       (limit += 1).toString() +
       " FROM : " +
       obj['g_name'] +
       "\n"));
-
-  if (limit == 0) {
-    print("Nothing to show");
-    print("Press enter to come back");
-    stdin.readLineSync()!;
-    return 0;
-  }
 
   await Response_Invite();
 }
@@ -87,7 +102,7 @@ Future Response_Invite() async {
         "Do you want to accept or decline an invitation ?\n Enter is number or enter 0 to leave\n");
     choice = int.parse(stdin.readLineSync()!);
     if (choice != 0 && choice <= limit) {
-      print("Enter 'A' to accept, 'D' to decline or 'E' to come back");
+      print("Enter\n\tA : Accept\n\tD : Decline\n\tE : Come back");
       enter = stdin.readLineSync()!;
       switch (enter) {
         case 'A':
@@ -100,7 +115,8 @@ Future Response_Invite() async {
           break;
         default:
           print("Enter unrecognised\n");
-          sleep(Duration(seconds: 1));
+          print("Press Enter to continue");
+          stdin.readLineSync();
       }
     }
   } while (choice != 0);
@@ -116,12 +132,13 @@ Future Accept_Invite(int choice) async {
     'group': selected['g_id'].toString()
   };
 
-  var response = await http.post(
-      Uri.http('localhost:3000', '/notifications/invite/accept/', answer));
+  var response = await http
+      .post(Uri.http('localhost:3000', '/notifications/invite/accept', answer));
   await http.delete(
-      Uri.http('localhost:3000', '/notifications/invite/delete/', answer));
+      Uri.http('localhost:3000', '/notifications/invite/delete', answer));
   print(response.body + "\n");
-  sleep(Duration(seconds: 1));
+  print("Press Enter to continue");
+  stdin.readLineSync();
 }
 
 Future Decline_Invite(int choice) async {
@@ -135,9 +152,10 @@ Future Decline_Invite(int choice) async {
   };
 
   var response = await http.delete(
-      Uri.http('localhost:3000', '/notifications/invite/delete/', answer));
+      Uri.http('localhost:3000', '/notifications/invite/delete', answer));
   print(response.body + "\n");
-  sleep(Duration(seconds: 1));
+  print("Press Enter to continue");
+  stdin.readLineSync();
 }
 
 //START to delete
