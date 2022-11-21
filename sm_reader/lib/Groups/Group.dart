@@ -12,21 +12,18 @@ int limit = 0;
 
 int id_group = 0;
 
-//To make virtual auth
+//To save auth
 int curent_user = 0;
 
-Future Start() async {
+Future Start(int id_user) async {
   do {
-    //Start virtual auth
-    await List_user();
-    print("Enter the ID of the curent user\n");
-    curent_user = int.parse(stdin.readLineSync()!);
-    //END virtual auth
+//Save the ID of the user authentified
+    curent_user = id_user;
 
     final in_group = {'in': curent_user.toString()};
 
     print(" What do you want to do ?\n\tL : List all existings groups\n\tG : List groups you are members\n\t" +
-        "O : List groups you own\n\tC : Create a New group\n\tE : to exit the section group");
+        "O : List groups you own\n\tC : Create a New group\n\tE : Exit the section group");
     enter = stdin.readLineSync()!;
     switch (enter) {
       case 'L':
@@ -163,32 +160,6 @@ Future List_member() async {
       member['u_lname'] +
       "\n"));
 }
-
-//START to delete
-Future List_user() async {
-  limit = 0;
-
-  var url = Uri.http('localhost:3000', '/users');
-  var response = await http.get(url);
-
-  if (response.body == "") {
-    print("Nothing to Show\nPress Enter to continue");
-    stdin.readLineSync();
-    return 0;
-  }
-  var res = jsonDecode(response.body);
-
-  print("Users : \n");
-
-  res.forEach((user) => print("User ID : " +
-      (limit = user['u_id']).toString() +
-      " Firstname : " +
-      user['u_fname'] +
-      " Last name : " +
-      user['u_lname'] +
-      "\n"));
-}
-//END to delete
 
 Future Interact_user() async {
   do {

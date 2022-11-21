@@ -4,7 +4,7 @@ import 'dart:io';
 
 String? enter;
 
-//To make virtual auth
+//To save auth
 int curent_user = 0;
 var user;
 
@@ -16,18 +16,13 @@ var invite;
 //Param for invitation response
 var answer;
 
-Future Start() async {
+Future Start(int id_user) async {
   do {
-    //Start virtual auth
-    await List_user();
-    print("Enter the ID of the curent user\n");
-    curent_user = int.parse(stdin.readLineSync()!);
-    //END virtual auth
+    curent_user = id_user;
 
     user = {'user': curent_user.toString()};
 
-    print(
-        "Enter \n\tN : to see Notification\n\tI : to see Invitation\n\tE : to Exit");
+    print("Enter \n\tN : See Notification\n\tI : See Invitation\n\tE : Exit");
     enter = stdin.readLineSync()!;
     switch (enter) {
       case 'N':
@@ -157,23 +152,3 @@ Future Decline_Invite(int choice) async {
   print("Press Enter to continue");
   stdin.readLineSync();
 }
-
-//START to delete
-Future List_user() async {
-  limit = 0;
-
-  var url = Uri.http('localhost:3000', '/users');
-  var response = await http.get(url);
-  var res = jsonDecode(response.body);
-
-  print("Users : \n");
-
-  res.forEach((user) => print("User ID : " +
-      (limit = user['u_id']).toString() +
-      " Firstname : " +
-      user['u_fname'] +
-      " Last name : " +
-      user['u_lname'] +
-      "\n"));
-}
-//END to delete
