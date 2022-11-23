@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:sm_reader/Auth/Auth.dart' as auth;
 import 'package:sm_reader/Groups/Group.dart' as Group;
 import 'package:sm_reader/News/New.dart' as New;
+import 'package:sm_reader/SM/SM.dart' as sm;
 
 void main(List<String> arguments) async {
   String menu;
@@ -21,7 +22,7 @@ void main(List<String> arguments) async {
           user = await auth.login();
           break;
         case 'S':
-          Group.Start();
+          await sm.listSM();
           break;
         case 'E':
           break;
