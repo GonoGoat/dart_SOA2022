@@ -13,7 +13,8 @@ void main(List<String> arguments) async {
   print("\nWelcome to SM Reader !");
   do {
     if (user == null) {
-      print("What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n");
+      print(
+          "What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n");
       menu = stdin.readLineSync()!;
       switch (menu) {
         case 'R':
@@ -23,33 +24,50 @@ void main(List<String> arguments) async {
           user = await auth.login();
           break;
         case 'S':
-          Group.Start();
+          await group.Start(user['id']);
           break;
         case 'E':
           break;
         default:
-          print("Choix non valide");
-          sleep(Duration(seconds: 1));
+          print("Enter unrecognised\nPress Enter to continue");
+          stdin.readLineSync();
       }
-    }
-    else {
-      print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\nYou can also press 'E' to leave");
+    } else if (user['isadmin'] == true) {
+      print(
+          "You are login as Administrator. You can access :\n\tA : Admin section\n\tE : To leave");
+      menu = stdin.readLineSync()!;
+      switch (menu) {
+        case 'A':
+          await admin.Start(user['id']);
+          break;
+        case 'E':
+          break;
+        default:
+          print("Enter unrecognised\nPress Enter to continue");
+          stdin.readLineSync();
+      }
+    } else {
+      print(
+          "What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\n\tO : Notifications\n\tE :To leave");
       menu = stdin.readLineSync()!;
       switch (menu) {
         case 'L':
           user = await auth.logout() ? null : user;
           break;
         case 'G':
-          Group.Start();
+          await group.Start(user['id']);
           break;
         case 'N':
-          New.Start();
+          await news.Start();
+          break;
+        case 'O':
+          await notification.Start(user['id']);
           break;
         case 'E':
           break;
         default:
-          print("Choix non valide");
-          sleep(Duration(seconds: 1));
+          print("Enter unrecognised\nPress Enter to continue");
+          stdin.readLineSync();
       }
     }
   } while (menu != 'E');

@@ -22,7 +22,7 @@ Future Start(int id_user) async {
 
     final in_group = {'in': curent_user.toString()};
 
-    print(" What do you want to do ?\n\tL : List all existings groups\n\tG : List groups you are members\n\t" +
+    print("What do you want to do ?\n\tL : List all existings groups\n\tG : List groups you are members\n\t" +
         "O : List groups you own\n\tC : Create a New group\n\tE : Exit the section group");
     enter = stdin.readLineSync()!;
     switch (enter) {
