@@ -93,3 +93,21 @@ Future logout() async {
   } while (true);*/
   return true;
 }
+
+Future pay() async {
+  var res;
+  do {
+    print("Enter your card ID\n");
+
+    print("Enter your card expiration date (MM-YY)\n");
+
+    res = await http.get(Uri.https('akerapi.it','/api/v1/custom?_quantity=1&customfield1=boolean'));
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      if (data['code'] == 200 && data['data']['customfield1']) {
+        
+      }
+    }
+    print("Authentification failed ! Wrong email address and/or password");
+  } while (true);
+}

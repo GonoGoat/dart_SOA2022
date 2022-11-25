@@ -54,20 +54,20 @@ void main(List<String> arguments) async {
       }
       else {
         print("It seems that your yearly subscription is not active. What do you want to do ?\n\tL : Logout\n\tP : Pay\n\tE : Leave\n");
-      }
-      menu = stdin.readLineSync()!;
+        menu = stdin.readLineSync()!;
         switch (menu) {
           case 'L':
             user = await auth.logout() ? null : user;
             break;
           case 'P':
-            //TODO
+            auth.pay();
           case 'E':
             break;
           default:
             print("Choix non valide");
             sleep(Duration(seconds: 1));
         }
+      }
     }
   } while (menu != 'E');
 }

@@ -23,13 +23,12 @@ router.post('/login', function(req, res, next) {
   pool.query ('select u_id,u_isadmin,u_fname,u_lname,u_lastpurchase from users where u_mail = $1 and u_password = $2',[req.body.mail,req.body.password], async (err,rows) => {
     if (err) throw err;
     if (rows.rows.length > 0) {
-      if (u_isadmin == )
       return res.send({
         isadmin : rows.rows[0].u_isadmin,
         id : rows.rows[0].u_id,
         fname : rows.rows[0].u_fname,
         lname : rows.rows[0].u_lname,
-        hasPaid : Boolean(rows.rows[0].u_isadmin || (Math.abs(+(new Date()) - +(new Date(rows.rows[0].u_lastpurchase))) > 31536000000))
+        hasPaid : Boolean(rows.rows[0].u_isadmin || (rows.rows[0].u_lastpurchase != null && (Math.abs(+(new Date()) - +(new Date(rows.rows[0].u_lastpurchase))) > 31536000000)))
       })
     }
     else {
