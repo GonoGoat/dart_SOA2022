@@ -4,7 +4,8 @@ CREATE TABLE users (
     u_lname VARCHAR(50) NOT NULL, -- User last name
     u_mail VARCHAR(50) UNIQUE NOT NULL, -- User Mail
     u_password VARCHAR(100) NOT NULL, -- User (hashed) password
-    u_isAdmin BOOLEAN NOT NULL -- Is this user an admin ?
+    u_isadmin BOOLEAN NOT NULL, -- Is this user an admin ?
+    u_lastpurchase DATE DEFAULT NULL -- Date of last yearly subscription purchase
 );
 CREATE TABLE instruments (
     i_id SERIAL PRIMARY KEY, -- Instrument ID

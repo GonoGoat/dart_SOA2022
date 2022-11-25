@@ -1,10 +1,10 @@
-INSERT INTO users (u_fname,u_lname,u_mail,u_password,u_isadmin)
+INSERT INTO users (u_fname,u_lname,u_mail,u_password,u_isadmin,u_lastpurchase)
 VALUES
-  ('Hermione','Hebert','mauris.molestie@yahoo.org','pede','0'),
-  ('Yuli','Anderson','maecenas.malesuada.fringilla@hotmail.org','vel','0'),
-  ('Kylie','Hooper','sem.magna@protonmail.ca','In','0'),
-  ('Ila','Wilkerson','fringilla.donec@outlook.edu','suscipit','0'),
-  ('Nigel','Ford','sodales.at@google.com','imperdiet,','1');
+  ('Hermione','Hebert','mauris.molestie@yahoo.org','pede','0','2022-10-09'),
+  ('Yuli','Anderson','maecenas.malesuada.fringilla@hotmail.org','vel','0','2021-10-09'),
+  ('Kylie','Hooper','sem.magna@protonmail.ca','In','0',NULL),
+  ('Ila','Wilkerson','fringilla.donec@outlook.edu','suscipit','0','2021-10-09'),
+  ('Nigel','Ford','sodales.at@google.com','imperdiet,','1',NULL);
 
 INSERT INTO instruments(i_name)
 VALUES
