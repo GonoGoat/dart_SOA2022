@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
   print("\nWelcome to SM Reader !");
   do {
     if (user == null) {
-      print("What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n");
+      print("What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n\tE : Leave\n");
       menu = stdin.readLineSync()!;
       switch (menu) {
         case 'R':
@@ -32,24 +32,42 @@ void main(List<String> arguments) async {
       }
     }
     else {
-      print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\nYou can also press 'E' to leave");
-      menu = stdin.readLineSync()!;
-      switch (menu) {
-        case 'L':
-          user = await auth.logout() ? null : user;
-          break;
-        case 'G':
-          Group.Start();
-          break;
-        case 'N':
-          New.Start();
-          break;
-        case 'E':
-          break;
-        default:
-          print("Choix non valide");
-          sleep(Duration(seconds: 1));
+      if (user['hasPaid']) {
+        print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\nYou can also press 'E' to leave");
+        menu = stdin.readLineSync()!;
+        switch (menu) {
+          case 'L':
+            user = await auth.logout() ? null : user;
+            break;
+          case 'G':
+            Group.Start();
+            break;
+          case 'N':
+            New.Start();
+            break;
+          case 'E':
+            break;
+          default:
+            print("Choix non valide");
+            sleep(Duration(seconds: 1));
+        }
       }
+      else {
+        print("It seems that your yearly subscription is not active. What do you want to do ?\n\tL : Logout\n\tP : Pay\n\tE : Leave\n");
+      }
+      menu = stdin.readLineSync()!;
+        switch (menu) {
+          case 'L':
+            user = await auth.logout() ? null : user;
+            break;
+          case 'P':
+            //TODO
+          case 'E':
+            break;
+          default:
+            print("Choix non valide");
+            sleep(Duration(seconds: 1));
+        }
     }
   } while (menu != 'E');
 }

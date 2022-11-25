@@ -57,12 +57,11 @@ Future login() async {
       print("Authentification succeeded ! Welcome on SM Reader ${data['fname']} ${data['lname']}");
       return {
         'id' : data['id'],
-        'isadmin' : data['isadmin']
+        'isadmin' : data['isadmin'],
+        'hasPaid' : data['hasPaid']
       };
     }
-    else {
-      print("Authentification failed ! Wrong email address and/or password");
-    }
+    print("Authentification failed ! Wrong email address and/or password");
   } while (true);
 }
 
