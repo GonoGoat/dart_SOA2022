@@ -5,6 +5,7 @@ import 'package:sm_reader/Groups/Group.dart' as group;
 import 'package:sm_reader/News/New.dart' as news;
 import 'package:sm_reader/Notifications/Notification.dart' as notification;
 import 'package:sm_reader/Admin/Admin.dart' as admin;
+import 'package:sm_reader/SM/SM.dart' as sm;
 
 void main(List<String> arguments) async {
   String menu;
@@ -24,7 +25,7 @@ void main(List<String> arguments) async {
           user = await auth.login();
           break;
         case 'S':
-          await group.Start(user['id']);
+          await sm.listSM();
           break;
         case 'E':
           break;
@@ -69,22 +70,6 @@ void main(List<String> arguments) async {
         default:
           print("Enter unrecognised\nPress Enter to continue");
           stdin.readLineSync();
-      }
-      else {
-        print("It seems that your yearly subscription is not active. What do you want to do ?\n\tL : Logout\n\tP : Pay\n\tE : Leave\n");
-        menu = stdin.readLineSync()!;
-        switch (menu) {
-          case 'L':
-            user = await auth.logout() ? null : user;
-            break;
-          case 'P':
-            auth.pay();
-          case 'E':
-            break;
-          default:
-            print("Choix non valide");
-            sleep(Duration(seconds: 1));
-        }
       }
     }
   } while (menu != 'E');
