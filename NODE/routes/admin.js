@@ -19,17 +19,44 @@ router.get('/member_group', function(req, res, next) {
   })
 });
 
-/* Create a new group */
-router.post('/create_group', async(req, res, next) =>{
-  const query={
-    text : 'INSERT INTO groups(g_name,g_u_id) VALUES($1,$2)',
-    values : [req.query.group,req.query.owner],
-  }
-  pool.query(query,(err,rows) =>  {
+/* GET groups listing */
+router.get('/list_group', function(req, res, next) {
+  pool.query('select g_id,g_name from groups',(err,rows) =>  {
     if (err) throw err;
-    return res.send("Groups " +req.query.group + " has been succesfully created");
+    if(rows.rows.length>0){
+      return res.send(rows.rows);
+    }
+    else{
+      return res.send("");
+    }
   })
 });
 
+/*Create a new admin*/
+router.post('/signup', function(req, res, next) {
+  pool.query ('select * from users where u_mail = $1',[req.body.mail.toLowerCase()], (err,rows) => {
+    if (err) throw err;
+    if (rows.rows.length > 0) {
+      return res.send(false)
+    }
+    else {
+      pool.query ('insert into users (u_password,u_fname,u_lname,u_mail,u_isadmin) values ($1,$2,$3,$4,$5)',
+      [req.body.password,req.body.fname,req.body.lname,req.body.mail,true], (err,rows) => {
+        if (err) throw err;
+        return res.send(true)
+      })
+    }
+  })
+});
+
+router.delete('/delete_group', async(req, res, next) => {
+  const query_delete={
+    text : 'DELETE FROM groups WHERE g_id=$1',
+    values : [req.query.user]
+  }
+  pool.query(query_delete,(err,rows) =>  {
+    return res.send("OK");
+  })
+});
 
 module.exports = router;

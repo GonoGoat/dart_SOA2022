@@ -32,25 +32,26 @@ void main(List<String> arguments) async {
           print("Enter unrecognised\nPress Enter to continue");
           stdin.readLineSync();
       }
-    } else if (user['isadmin'] == true) {
-      print(
-          "You are login as Administrator. You can access :\n\tA : Admin section\n\tE : To leave");
+    } else {
+      await notification.Start(user['id']);
+      if (user['isadmin'] == true) {
+        print("You are login as Administrator. \n" +
+            "What part of the app would you like to access ?\n" +
+            "\tA : Admin section\n\tL : Logout\n\tG : Group\n\tN : News\n\tO : Notifications\n\tE : To leave");
+      } else {
+        print(
+            "What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\n\tO : Notifications\n\tE : To leave");
+      }
       menu = stdin.readLineSync()!;
       switch (menu) {
         case 'A':
-          await admin.Start(user['id']);
+          if (user['isadmin'] == true) {
+            await admin.Start(user['id']);
+          } else {
+            print("Enter unrecognised\nPress Enter to continue");
+            stdin.readLineSync();
+          }
           break;
-        case 'E':
-          break;
-        default:
-          print("Enter unrecognised\nPress Enter to continue");
-          stdin.readLineSync();
-      }
-    } else {
-      print(
-          "What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\n\tO : Notifications\n\tE :To leave");
-      menu = stdin.readLineSync()!;
-      switch (menu) {
         case 'L':
           user = await auth.logout() ? null : user;
           break;

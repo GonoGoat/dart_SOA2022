@@ -16,12 +16,42 @@ var invite;
 //Param for invitation response
 var answer;
 
+//Number of Invite and Notif
+int nbr_Inv = 0;
+int nbr_Notif = 0;
+
 Future Start(int id_user) async {
   do {
     curent_user = id_user;
 
     user = {'user': curent_user.toString()};
 
+    //GET number of notif unread
+    var url = Uri.http('localhost:3000', '/notifications', user);
+    var response = await http.get(url);
+
+    var res = jsonDecode(response.body);
+    assert(res is List);
+    var nbr_1 = res[0];
+    assert(nbr_1 is Map);
+    nbr_Notif = int.parse(nbr_1['notif']);
+
+    //GET number of Invite unresponded
+
+    var url_2 = Uri.http('localhost:3000', '/notifications/nber', user);
+    var response_2 = await http.get(url_2);
+
+    var res_2 = jsonDecode(response_2.body);
+    assert(res_2 is List);
+    var nbr_2 = res_2[0];
+    assert(nbr_2 is Map);
+    nbr_Inv = int.parse(nbr_2['invite']);
+
+    print("You have " +
+        nbr_Notif.toString() +
+        " notification(s) and " +
+        nbr_Inv.toString() +
+        " invitation(s).");
     print("Enter \n\tN : See Notification\n\tI : See Invitation\n\tE : Exit");
     enter = stdin.readLineSync()!;
     switch (enter) {
@@ -42,52 +72,56 @@ Future Start(int id_user) async {
 }
 
 Future List_Notification() async {
-  var url = Uri.http('localhost:3000', '/notifications');
-  var response = await http.get(url);
-
-  if (response.body == "") {
+  if (nbr_Notif == 0) {
     print("Nothing to Show\nPress Enter to continue");
     stdin.readLineSync();
     return 0;
+  } else {
+    var url = Uri.http('localhost:3000', '/notifications/list', user);
+    var response = await http.get(url);
+    var res = jsonDecode(response.body);
+
+    print("List of notification\n");
+
+    res.forEach((obj) => print("\tDate : " +
+        obj['n_date'].toString() +
+        "\n Text : \n" +
+        "A news as arrived : " +
+        obj['n_title'] +
+        "\n\n"));
+
+    http.delete(
+        Uri.http('localhost:3000', '/notifications/notif/delete', user));
+
+    print("Press enter to come back");
+
+    stdin.readLineSync();
   }
-
-  var res = jsonDecode(response.body);
-
-  print("List of notification\n");
-
-  res.forEach((obj) => print("\tDate : " +
-      obj['a_date'].toString() +
-      "\n Text : \n" +
-      obj['a_text'] +
-      "\n\n"));
-
-  print("Press enter to come back");
-  stdin.readLineSync();
 }
 
 Future List_Invite() async {
-  limit = 0;
-
-  var url = Uri.http('localhost:3000', '/notifications/invite', user);
-  var response = await http.get(url);
-
-  if (response.body == "") {
+  if (nbr_Inv == 0) {
     print("Nothing to Show\nPress Enter to continue");
     stdin.readLineSync();
     return 0;
+  } else {
+    limit = 0;
+
+    var url = Uri.http('localhost:3000', '/notifications/invite', user);
+    var response = await http.get(url);
+
+    invite = jsonDecode(response.body);
+
+    print("List of Invitation\n");
+
+    invite.forEach((obj) => print("\tInvitation number : " +
+        (limit += 1).toString() +
+        " FROM : " +
+        obj['g_name'] +
+        "\n"));
+
+    await Response_Invite();
   }
-
-  invite = jsonDecode(response.body);
-
-  print("List of Invitation\n");
-
-  invite.forEach((obj) => print("\tInvitation number : " +
-      (limit += 1).toString() +
-      " FROM : " +
-      obj['g_name'] +
-      "\n"));
-
-  await Response_Invite();
 }
 
 Future Response_Invite() async {

@@ -2,10 +2,45 @@ var express = require('express');
 var router = express.Router();
 var pool = require('../db.js');
 
-/* GET Notification listing */
+/* GET number of Notification */
 router.get('/', function(req, res, next) {
+  const query_notif={
+      text : 'SELECT COUNT(n_id) as notif FROM alerts JOIN news ON a_n_id = n_id WHERE a_u_id = $1',
+      values : [req.query.user]
+    }
+  pool.query(query_notif,(err,rows) =>  {
+    if (err) throw err;
+    if(rows.rows.length>0){
+      return res.send(rows.rows);
+    }
+    else{
+      return res.send("");
+    }
+  })
+});
+
+/* GET number of invitation */
+router.get('/nber', function(req, res, next) {
+  const query_invite={
+      text : 'SELECT COUNT (r_u_id) as invite FROM requests WHERE r_u_id =$1',
+      values : [req.query.user]
+    }
+  pool.query(query_invite,(err,rows) =>  {
+    if (err) throw err;
+    if(rows.rows.length>0){
+      return res.send(rows.rows);
+    }
+    else{
+      return res.send("");
+    }
+  })
+});
+
+/* GET Notification listing */
+router.get('/list', function(req, res, next) {
     const query={
-        text : 'SELECT to_char(a_date,\'DD-MM-YYYY HH24:MI\') as a_date, a_text FROM alerts',
+        text : 'SELECT to_char(n_date,\'DD-MM-YYYY HH24:MI\') as n_date, n_title FROM alerts JOIN news ON a_n_id = n_id WHERE a_u_id = $1',
+        values : [req.query.user]
       }
     pool.query(query,(err,rows) =>  {
       if (err) throw err;
@@ -66,4 +101,14 @@ router.get('/', function(req, res, next) {
     })
   });
 
+  router.delete('/notif/delete', async(req, res, next) => {
+    const query_delete={
+      text : 'DELETE FROM alerts WHERE a_u_id=$1',
+      values : [req.query.user]
+    }
+    pool.query(query_delete,(err,rows) =>  {
+      return res.send("OK");
+    })
+  });
+ 
   module.exports = router;
