@@ -54,7 +54,10 @@ Future login() async {
     res = await http.post(Uri.http('localhost:3000','/users/login'),body : body);
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
-      print("Authentification succeeded ! Welcome on SM Reader ${data['fname']} ${data['lname']}");
+      print("Authentification succeeded ! Welcome on SM Reader ${data['fname']} ${data['lname']}\n");
+      if (data['isadmin']) {
+        print("You are logged in with administrator privileges.\n");
+      }
       return {
         'id' : data['id'],
         'isadmin' : data['isadmin'],
@@ -94,18 +97,33 @@ Future logout() async {
   return true;
 }
 
-Future pay() async {
+Future pay(int id) async {
+  var body = {
+    'pin' : '',
+    'key' : '',
+    'exp' : '',
+    'id' : id.toString()
+  };
   var res;
   do {
-    print("Enter your card ID\n");
+    print("Enter your credit card ID\n");
+    body['key'] = stdin.readLineSync()!;
 
-    print("Enter your card expiration date (MM-YY)\n");
+    print("Enter your credit card expiration date (YY-MM)\n");
+    body['exp'] = stdin.readLineSync()!;
 
-    res = await http.get(Uri.https('akerapi.it','/api/v1/custom?_quantity=1&customfield1=boolean'));
+    print("Enter your credit card PIN code\n");
+    stdin.echoMode = false;
+    body['pin'] = stdin.readLineSync()!;
+    stdin.echoMode = true;
+
+    res = await http.post(Uri.http('localhost:3000','/pay'),body : body);
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
-      if (data['code'] == 200 && data['data']['customfield1']) {
-        
+      if (data) {
+        print(data);
+        print("Payment sucessful ! Please log in again to access our platform.");
+        return true;
       }
     }
     print("Authentification failed ! Wrong email address and/or password");

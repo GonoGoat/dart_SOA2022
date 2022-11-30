@@ -20,6 +20,8 @@ void main(List<String> arguments) async {
           break;
         case 'L':
           user = await auth.login();
+          print("${user['id']} - ${user['isadmin']} -${user['haspaid']}\n");
+          print("${user['id'].runtimeType} - ${user['isadmin'].runtimeType} -${user['haspaid'].runtimeType}\n");
           break;
         case 'S':
           await sm.listSM();
@@ -60,7 +62,8 @@ void main(List<String> arguments) async {
             user = await auth.logout() ? null : user;
             break;
           case 'P':
-            auth.pay();
+            user = await auth.pay(user['id']) ? null : user;
+            break;
           case 'E':
             break;
           default:
