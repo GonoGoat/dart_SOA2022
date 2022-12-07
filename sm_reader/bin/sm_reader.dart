@@ -46,7 +46,7 @@ void main(List<String> arguments) async {
             New.Start();
             break;
           case 'S' :
-            sm.start();
+            await sm.start(user['id']);
             break;
           case 'E':
             break;
