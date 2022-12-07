@@ -33,7 +33,7 @@ void main(List<String> arguments) async {
     }
     else {
       if (user['hasPaid']) {
-        print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\nYou can also press 'E' to leave");
+        print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\n\tS : SM\nYou can also press 'E' to leave");
         menu = stdin.readLineSync()!;
         switch (menu) {
           case 'L':
@@ -44,6 +44,9 @@ void main(List<String> arguments) async {
             break;
           case 'N':
             New.Start();
+            break;
+          case 'S' :
+            sm.start();
             break;
           case 'E':
             break;
