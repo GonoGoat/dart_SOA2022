@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
         id : rows.rows[0].u_id,
         fname : rows.rows[0].u_fname,
         lname : rows.rows[0].u_lname,
-        hasPaid : Boolean(rows.rows[0].u_isadmin || (rows.rows[0].u_lastpurchase != null && (Math.abs(+(new Date()) - +(new Date(rows.rows[0].u_lastpurchase))) > 31536000000)))
+        hasPaid : Boolean(rows.rows[0].u_isadmin || (rows.rows[0].u_lastpurchase != null && (Math.abs(+(new Date()) - +(new Date(rows.rows[0].u_lastpurchase))) < 31536000000)))
       })
     }
     else {

@@ -117,11 +117,10 @@ Future pay(int id) async {
     body['pin'] = stdin.readLineSync()!;
     stdin.echoMode = true;
 
-    res = await http.post(Uri.http('localhost:3000','/pay'),body : body);
+    res = await http.post(Uri.http('localhost:3000','/users/pay'),body : body);
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
       if (data) {
-        print(data);
         print("Payment sucessful ! Please log in again to access our platform.");
         return true;
       }

@@ -20,8 +20,6 @@ void main(List<String> arguments) async {
           break;
         case 'L':
           user = await auth.login();
-          print("${user['id']} - ${user['isadmin']} -${user['haspaid']}\n");
-          print("${user['id'].runtimeType} - ${user['isadmin'].runtimeType} -${user['haspaid'].runtimeType}\n");
           break;
         case 'S':
           await sm.listSM();
