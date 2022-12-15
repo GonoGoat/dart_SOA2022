@@ -6,7 +6,7 @@ Future listSM() async{
   var res = await http.get(Uri.http('localhost:3000','/sm'));
   var data = jsonDecode(res.body);
   for (int i = 0;i<data.length;i++) {
-    print("SM ${i+1}\n\tInstrument : ${data[i]['i_name']}\n\tSong : ${data[i]['s_name']}\n");
+    print("SM ${i+1}\n\tInstruments : ${data[i]['instruments'].join(", ")}\n\tSong : ${data[i]['s_name']}\n");
   }
   return res.body;
 }
@@ -50,17 +50,17 @@ Future anySM(int id) async{
     search = stdin.readLineSync()!;
     switch (search) {
       case 'N' :
-        sm = await getSMByName();
+        //sm = await getSMByName();
         break;
       case 'I':
-        sm = await getSMByInstrument();
+        //sm = await getSMByInstrument();
         break;
       default:
         print("Choix non valide");
         sleep(Duration(seconds: 1));
     }
   } while(search != 'E');
-
+/*
   var menu;
   print("\nWhat would you like to do with the following song : ${sm[index]['i_name']} (${sm[index]['s_name']})\n\tR : Read\n\tF : Set as group favourite\n\tE : Leave\n");
   do {
@@ -78,7 +78,7 @@ Future anySM(int id) async{
         print("Choix non valide");
         sleep(Duration(seconds: 1));
     }
-  } while (menu != "E");
+  } while (menu != "E");*/
 }
 
 Future readSM() async{
