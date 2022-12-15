@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pool = require('../db.js');
+var axios = require('axios');
 
 /* GET users listing. */
 router.post('/signup', function(req, res, next) {
@@ -28,13 +29,36 @@ router.post('/login', function(req, res, next) {
         id : rows.rows[0].u_id,
         fname : rows.rows[0].u_fname,
         lname : rows.rows[0].u_lname,
-        hasPaid : Boolean(rows.rows[0].u_isadmin || (rows.rows[0].u_lastpurchase != null && (Math.abs(+(new Date()) - +(new Date(rows.rows[0].u_lastpurchase))) > 31536000000)))
+        hasPaid : Boolean(rows.rows[0].u_isadmin || (rows.rows[0].u_lastpurchase != null && (Math.abs(+(new Date()) - +(new Date(rows.rows[0].u_lastpurchase))) < 31536000000)))
       })
     }
     else {
       return res.status(404).send(false);
     }
   })
+});
+
+router.post('/pay', function(req, res, next) {
+  axios.post('http://localhost:3000/bank', {
+      key : req.body.key,
+      exp : req.body.exp,
+      pin : req.body.pin,
+      amount : 50
+  })
+  .then(function (rescall) {
+    if (rescall.status == 200 && rescall.data == true) {
+      pool.query ('update users set u_lastpurchase = now() where u_id = $1',[parseInt(req.body.id)], async (err,rows) => {
+        if (err) throw err;
+        return res.send(true);
+      })
+    }
+    else {
+      return res.send(false)
+    }
+  })
+  .catch(function (error) {
+    throw error;
+  });
 });
 
 //router.get('/admin',db.getAllAdminUsers);

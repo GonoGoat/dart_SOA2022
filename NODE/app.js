@@ -10,6 +10,7 @@ var newsRouter = require('./routes/news');
 var notificationsRouter = require('./routes/notifications');
 var adminRouter = require('./routes/admin');
 var smRouter = require('./routes/sm');
+var bankRouter = require('./routes/bank');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/news',newsRouter);
 app.use('/notifications',notificationsRouter);
 app.use('/admin',adminRouter);
 app.use('/sm', smRouter);
+app.use('/bank',bankRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

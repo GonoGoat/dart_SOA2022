@@ -33,6 +33,30 @@ void main(List<String> arguments) async {
           print("Enter unrecognised\nPress Enter to continue");
           stdin.readLineSync();
       }
+    }
+    else {
+      if (user['hasPaid']) {
+        print("What part of the app would you like to access ?\n\tL : Logout\n\tG : Group\n\tN : News\n\tS : SM\nYou can also press 'E' to leave");
+        menu = stdin.readLineSync()!;
+        switch (menu) {
+          case 'L':
+            user = await auth.logout() ? null : user;
+            break;
+          case 'G':
+            Group.Start();
+            break;
+          case 'N':
+            New.Start();
+            break;
+          case 'S' :
+            await sm.start(user['id']);
+            break;
+          case 'E':
+            break;
+          default:
+            print("Choix non valide");
+            sleep(Duration(seconds: 1));
+        }
     } else {
       await notification.Start(user['id']);
       if (user['isadmin'] == true) {
@@ -70,6 +94,22 @@ void main(List<String> arguments) async {
         default:
           print("Enter unrecognised\nPress Enter to continue");
           stdin.readLineSync();
+      else {
+        print("It seems that your yearly subscription is not active. What do you want to do ?\n\tL : Logout\n\tP : Pay\n\tE : Leave\n");
+        menu = stdin.readLineSync()!;
+        switch (menu) {
+          case 'L':
+            user = await auth.logout() ? null : user;
+            break;
+          case 'P':
+            user = await auth.pay(user['id']) ? null : user;
+            break;
+          case 'E':
+            break;
+          default:
+            print("Choix non valide");
+            sleep(Duration(seconds: 1));
+        }
       }
     }
   } while (menu != 'E');
