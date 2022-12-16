@@ -171,7 +171,7 @@ router.get('/sm/detail', async(req, res, next) => {
     })
 });
 
-router.get('/instrument/detail',async(req,res,next)=>{
+router.get('/sm/instrument/detail',async(req,res,next)=>{
   const query={
     text : 'SELECT i_id, i_name FROM instruments JOIN sm_instruments ON si_i_id = i_id WHERE si_s_id = $1',
     values : [req.query.select]
@@ -187,7 +187,7 @@ router.get('/instrument/detail',async(req,res,next)=>{
   })
 });
 
-router.delete('/instrument/delete', async(req, res, next) => {
+router.delete('/sm/instrument/delete', async(req, res, next) => {
   const query={
     text : 'DELETE FROM sm_instruments WHERE si_i_id = $1 AND si_s_id = $2',
     values : [req.body.id_instrument,req.body.id_sm]
@@ -228,5 +228,34 @@ router.get('/sm', function(req, res, next) {
   })
 });
 
+router.put('/update_instru', async(req, res, next) => {
+  const query={
+    text : 'UPDATE instruments SET i_name = $1 WHERE i_id = $2',
+    values : [req.body.name,req.body.id]
+  }
+  pool.query(query,(err,rows) =>  {
+    return res.send("The instrument has been succesfully updated ");
+  })
+});
+
+router.delete('/delete_instru', async(req, res, next) => {
+  const query_delete={
+    text : 'DELETE FROM instruments WHERE i_id=$1',
+    values : [req.body.select]
+  }
+  pool.query(query_delete,(err,rows) =>  {
+    return res.send("The instrument has been succesfully deleted ");
+  })
+});
+
+router.post('/create_instru', async(req, res, next) => {
+  const query={
+    text : 'INSERT INTO instruments (i_name) VALUES ($1)',
+    values : [req.body.name]
+  }
+  pool.query(query,(err,rows) =>  {
+    return res.send("The instrument has been succesfully created");
+  })
+});
 
 module.exports = router;

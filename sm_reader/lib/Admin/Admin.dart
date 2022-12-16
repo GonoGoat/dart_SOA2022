@@ -1,5 +1,4 @@
 import 'dart:convert';
-//import 'dart:html';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
@@ -14,7 +13,7 @@ Future Start(int id_user) async {
   curent_user = id_user;
   do {
     print(
-        "Enter the section you want manage :\n\tC : Create admin\n\tG : Groups\n\tN : News\n\tS : SM\n\tE: Exit admin section");
+        "Enter the section you want manage :\n\tC : Create admin\n\tG : Groups\n\tI : Instrument\n\tN : News\n\tS : SM\n\tE: Exit admin section");
     enter = stdin.readLineSync()!;
     switch (enter) {
       case 'C':
@@ -22,6 +21,9 @@ Future Start(int id_user) async {
         break;
       case 'G':
         await Manage_group();
+        break;
+      case 'I':
+        await Manage_instru();
         break;
       case 'N':
         await Manage_news();
@@ -539,7 +541,7 @@ Future Add_instru(sm) async {
 Future Del_instru(sm) async {
   int choice = 0;
   do {
-    var url_1 = Uri.http('localhost:3000', '/admin/instrument/detail', sm);
+    var url_1 = Uri.http('localhost:3000', '/admin/sm/instrument/detail', sm);
     var response_1 = await http.get(url_1);
 
     if (response_1.body == "") {
@@ -568,7 +570,7 @@ Future Del_instru(sm) async {
         'id_sm': sm['select'].toString(),
         'id_instrument': id_instru.toString()
       };
-      var url_2 = Uri.http('localhost:3000', '/admin/instrument/delete');
+      var url_2 = Uri.http('localhost:3000', '/admin/sm/instrument/delete');
       var response_2 = await http.delete(url_2, body: new_sm);
       print(response_2.body);
       print("\nPress Enter to continue");
@@ -578,4 +580,145 @@ Future Del_instru(sm) async {
       stdin.readLineSync();
     }
   } while (choice != 0);
+}
+
+Future Manage_instru() async {
+  do {
+    print(
+        "Which section do you want to access : \n\tC : Create a new instrument\n\tM : Modify an existing instrument\n\tE : Exit");
+    enter = stdin.readLineSync()!;
+    switch (enter) {
+      case 'C':
+        await Create_instru();
+        break;
+      case 'M':
+        await Modify_instru();
+        break;
+      case 'E':
+        break;
+      default:
+        print("Enter unrecognised\nPress Enter to continue");
+        stdin.readLineSync();
+    }
+  } while (enter != 'E');
+}
+
+Future Modify_instru() async {
+  int choice = 0;
+  do {
+    limit = 0;
+
+    print("Instruments : \n");
+    var response =
+        await http.get(Uri.http('localhost:3000', '/admin/instrument'));
+
+    if (response.body == "") {
+      print("Nothing to Show\nPress Enter to continue");
+      stdin.readLineSync();
+      return 0;
+    }
+
+    var res = jsonDecode(response.body);
+
+    res.forEach((obj) => print("\tInstrument ID : " +
+        (limit += 1).toString() +
+        " Instrument name : " +
+        obj['i_name'] +
+        "\n"));
+
+    print("Enter the ID of the instrument you want to access or 0 to leave :");
+    choice = int.parse(stdin.readLineSync()!);
+    if (choice > 0 && choice <= limit) {
+      assert(res is List);
+      var id = res[choice - 1];
+      assert(id is Map);
+      var id_instru = id['i_id'];
+      final instru = {'select': id_instru.toString()};
+      do {
+        print(
+            "Do you want to :\n\tU : Update the name of the instrument\n\tD : Delete the instrument\n\tE : Exit");
+        enter = stdin.readLineSync()!;
+        switch (enter) {
+          case 'U':
+            await Update_instru(instru);
+            break;
+          case 'D':
+            await Delete_instru(instru);
+            break;
+          case 'E':
+            break;
+          default:
+            print("Enter unrecognised\nPress Enter to continue");
+            stdin.readLineSync();
+        }
+      } while (enter != 'E' && enter != 'U' && enter != 'D');
+    } else if (choice > limit) {
+      print("Enter unrecognised\nPress Enter to continue");
+      stdin.readLineSync();
+    }
+  } while (choice != 0);
+}
+
+Future Update_instru(instru) async {
+  print("Enter a new name for the instrument." +
+      "\n\t/!\\ATTENTION/!\\ If you change the name it will be change for all the SM which is associated" +
+      "\n\tLet the space empty to keep the previous name");
+  var new_name = stdin.readLineSync()!;
+  if (new_name == "") {
+    print("The name was not modified\nPress Enter to continue");
+    stdin.readLineSync();
+    return 0;
+  }
+  final update = {
+    'id': instru['select'].toString(),
+    'name': new_name.toString(),
+  };
+
+  var url = Uri.http('localhost:3000', '/admin/update_instru');
+  var response = await http.put(url, body: update);
+  print(response.body);
+  print("Press Enter to continue");
+  stdin.readLineSync();
+}
+
+Future Delete_instru(instru) async {
+  do {
+    print(
+        "/!\\ATTENTION/!\\ You will definitelly delete the Instrument. If you do it it will be deleted for all the SM which is associated" +
+            "\n\tEnter : \n\t\tD : Delete\n\t\tC : Cancel");
+    enter = stdin.readLineSync();
+    switch (enter) {
+      case 'D':
+        var response = await http.delete(
+            Uri.http('localhost:3000', '/admin/delete_instru'),
+            body: instru);
+        print(response.body);
+        print("Press Enter to continue");
+        stdin.readLineSync();
+        break;
+      case 'C':
+        break;
+      default:
+        print("Enter unrecognised\nPress Enter to continue");
+        stdin.readLineSync();
+    }
+  } while (enter != 'D' && enter != 'C');
+}
+
+Future Create_instru() async {
+  var instru_name;
+  do {
+    print("Enter a name for the new instrument : ");
+    instru_name = stdin.readLineSync();
+  } while (instru_name == "");
+
+  final create = {
+    'name': instru_name.toString(),
+  };
+  var url = Uri.http('localhost:3000', '/admin/create_instru');
+  var response = await http.post(url, body: create);
+
+  print(response.body);
+  print("\nPress Enter to continue");
+  stdin.readLineSync();
 }
