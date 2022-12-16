@@ -311,59 +311,271 @@ Future Manage_sm() async {
   } while (enter != 'E');
 }
 
-Future Create_sm() async {}
+Future Create_sm() async {
+  var sm_name;
+  var sm_file;
+  do {
+    print("Enter a name : ");
+    sm_name = stdin.readLineSync();
+  } while (sm_name == "");
+
+  do {
+    print("Enter a file name : ");
+    sm_file = stdin.readLineSync();
+  } while (sm_file == "");
+
+  final create = {'name': sm_name.toString(), 'file': sm_file.toString()};
+  var url_1 = Uri.http('localhost:3000', '/admin/create_sm');
+  var response_1 = await http.post(url_1, body: create);
+  var res_1 = jsonDecode(response_1.body);
+
+  print(res_1['response'].toString());
+  print("\nPress Enter to continue");
+  stdin.readLineSync();
+
+  var url_2 = Uri.http('localhost:3000', '/admin/instrument');
+  var response_2 = await http.get(url_2);
+
+  if (response_2.body == "") {
+    print("Nothing to Show\nPress Enter to continue");
+    stdin.readLineSync();
+    return 0;
+  }
+
+  var res_2 = jsonDecode(response_2.body);
+  int choice = 0;
+  do {
+    limit = 0;
+    res_2.forEach((obj) => print("\tInstrument ID : " +
+        (limit += 1).toString() +
+        " Instrument name : " +
+        obj['i_name'] +
+        "\n"));
+    print(
+        "Enter the id of the instrument to associate with the SM or 0 to leave \n\t(They had to be added one at time and stop with 0)");
+    choice = int.parse(stdin.readLineSync()!);
+    if (choice > 0 && choice <= limit) {
+      assert(res_2 is List);
+      var id = res_2[choice - 1];
+      assert(id is Map);
+      var id_instru = id['i_id'];
+      final new_sm = {
+        'id_sm': res_1['id_sm'].toString(),
+        'id_instrument': id_instru.toString()
+      };
+
+      var url_3 = Uri.http('localhost:3000', '/admin/create_sm/instrument');
+      var response_3 = await http.post(url_3, body: new_sm);
+      print(response_3.body);
+      print("\nPress Enter to continue");
+      stdin.readLineSync();
+    } else if (choice > limit) {
+      print("Enter unrecognised\nPress Enter to continue");
+      stdin.readLineSync();
+    }
+  } while (choice != 0);
+  print("\nPress Enter to continue");
+  stdin.readLineSync();
+}
 
 Future Modify_sm() async {
   int choice = 0;
+  print("SM : \n");
+
   do {
-    var response = await http.get(Uri.http('localhost:3000', '/sm'));
+    var res = await http.get(Uri.http('localhost:3000', '/admin/sm'));
+    var data = jsonDecode(res.body);
+    for (int i = 0; i < data.length; i++) {
+      print(
+          "SM ${i + 1}\n\tInstruments : ${data[i]['instruments'].join(", ")}\n\tSong : ${data[i]['s_name']}\n");
+    }
 
+    print("Enter the ID of the sm you want to access or 0 to leave :");
+    choice = int.parse(stdin.readLineSync()!);
+    if (choice > 0 && choice <= data.length) {
+      assert(data is List);
+      var id = data[choice - 1];
+      assert(id is Map);
+      var id_sm = id['s_id'];
+      final sm = {'select': id_sm.toString()};
+      do {
+        print(
+            "Do you want to :\n\tU : Update the sm\n\tD : Delete the sm\n\tE : Exit");
+        enter = stdin.readLineSync()!;
+        switch (enter) {
+          case 'U':
+            await Update_sm(sm);
+            break;
+          case 'D':
+            await Delete_sm(sm);
+            break;
+          case 'E':
+            break;
+          default:
+            print("Enter unrecognised\nPress Enter to continue");
+            stdin.readLineSync();
+        }
+      } while (enter != 'E' && enter != 'U' && enter != 'D');
+    } else if (choice > data.length) {
+      print("Enter unrecognised\nPress Enter to continue");
+      stdin.readLineSync();
+    }
+  } while (choice != 0);
+}
+
+Future Update_sm(sm) async {
+  var old_name;
+  var old_file;
+  var new_name;
+  var new_file;
+
+  var url = Uri.http('localhost:3000', '/admin/sm/detail', sm);
+  var res = await http.get(url);
+
+  var data = jsonDecode(res.body);
+  print("Details about the sm you will update");
+
+  for (int i = 0; i < data.length; i++) {
+    print(
+        "SM ${i + 1}\n\tInstruments : ${data[i]['instruments'].join(", ")}\n\tSong : ${data[i]['s_name']}\n");
+  }
+
+  old_name = data[0]['s_name'];
+  old_file = data[0]['s_file'];
+
+  print("Enter a name (let empty to keep the existant) : ");
+  new_name = stdin.readLineSync();
+  if (new_name == "") {
+    new_name = old_name;
+  }
+
+  print("Enter a file (let empty to keep the existant) : ");
+  new_file = stdin.readLineSync();
+  if (new_file == "") {
+    new_file = old_file;
+  }
+
+  final update = {
+    'id': sm['select'].toString(),
+    'name': new_name.toString(),
+    'file': new_file.toString()
+  };
+
+  var url_2 = Uri.http('localhost:3000', '/admin/update_sm');
+  var response_2 = await http.put(url_2, body: update);
+  print(response_2.body);
+
+  do {
+    print(
+        "Do you want to \n\tA : Add instrument of the sm\n\tD : Delete instrument of the sm\n\tE : Exit");
+    enter = stdin.readLineSync()!;
+    switch (enter) {
+      case 'A':
+        await Add_instru(sm);
+        break;
+      case 'D':
+        await Del_instru(sm);
+        break;
+      case 'E':
+        break;
+      default:
+        print("Enter unrecognised\nPress Enter to continue");
+        stdin.readLineSync();
+    }
+  } while (enter != 'E');
+}
+
+Future Delete_sm(sm) async {
+  var response = await http
+      .delete(Uri.http('localhost:3000', '/admin/delete_sm'), body: sm);
+  print(response.body + "\n");
+  print("Press Enter to continue");
+  stdin.readLineSync();
+}
+
+Future Add_instru(sm) async {
+  var url_2 = Uri.http('localhost:3000', '/admin/instrument');
+  var response_2 = await http.get(url_2);
+
+  if (response_2.body == "") {
+    print("Nothing to Show\nPress Enter to continue");
+    stdin.readLineSync();
+    return 0;
+  }
+
+  var res_2 = jsonDecode(response_2.body);
+  int choice = 0;
+  do {
     limit = 0;
+    res_2.forEach((obj) => print("\tInstrument ID : " +
+        (limit += 1).toString() +
+        " Instrument name : " +
+        obj['i_name'] +
+        "\n"));
+    print(
+        "Enter the id of the instrument to associate with the SM or 0 to leave \n\t(They had to be added one at time and stop with 0)");
+    choice = int.parse(stdin.readLineSync()!);
+    if (choice > 0 && choice <= limit) {
+      assert(res_2 is List);
+      var id = res_2[choice - 1];
+      assert(id is Map);
+      var id_instru = id['i_id'];
+      final new_sm = {
+        'id_sm': sm['select'].toString(),
+        'id_instrument': id_instru.toString()
+      };
+      var url_3 = Uri.http('localhost:3000', '/admin/create_sm/instrument');
+      var response_3 = await http.post(url_3, body: new_sm);
+      print(response_3.body);
+      print("\nPress Enter to continue");
+      stdin.readLineSync();
+    } else if (choice > limit) {
+      print("Enter unrecognised\nPress Enter to continue");
+      stdin.readLineSync();
+    }
+  } while (choice != 0);
+}
 
-    if (response.body == "") {
-      print("Nothing to Show\nPress Enter to continue");
+Future Del_instru(sm) async {
+  int choice = 0;
+  do {
+    var url_1 = Uri.http('localhost:3000', '/admin/instrument/detail', sm);
+    var response_1 = await http.get(url_1);
+
+    if (response_1.body == "") {
+      print("Any Instrument to delete\nPress Enter to continue");
       stdin.readLineSync();
       return 0;
     }
 
-    var res = jsonDecode(response.body);
+    var res_1 = jsonDecode(response_1.body);
 
-    print("News : \n");
-
-    res.forEach((sm) => print("\tSM ID : " +
+    limit = 0;
+    res_1.forEach((obj) => print("\tInstrument ID : " +
         (limit += 1).toString() +
-        " Instrument : " +
-        sm['i_name'] +
-        "Song : " +
-        sm['s_name'] +
+        " Instrument name : " +
+        obj['i_name'] +
         "\n"));
-    print("Enter the ID of the sm you want to access or 0 to leave :");
+    print(
+        "Enter the ID of the Instrument you want to delete or 0 to leave\n\t(You only can delet one instrument at the time)");
     choice = int.parse(stdin.readLineSync()!);
     if (choice > 0 && choice <= limit) {
-      assert(res is List);
-      var id = res[choice - 1];
+      assert(res_1 is List);
+      var id = res_1[choice - 1];
       assert(id is Map);
-      var id_news = id['n_id'];
-      final news = {'select': id_news.toString()};
-      print(
-          "Do you want to :\n\tU : Update the news\n\tD : Delete the news\n\tE : Exit");
-      enter = stdin.readLineSync()!;
-      switch (enter) {
-        case 'U':
-          await Update_news(news);
-          break;
-        case 'D':
-          await Delete_news(news);
-          break;
-        case 'E':
-          break;
-        default:
-          print("Enter unrecognised\nPress Enter to continue");
-          stdin.readLineSync();
-      }
-    } else if (choice > limit && choice < 0) {
+      var id_instru = id['i_id'];
+      final new_sm = {
+        'id_sm': sm['select'].toString(),
+        'id_instrument': id_instru.toString()
+      };
+      var url_2 = Uri.http('localhost:3000', '/admin/instrument/delete');
+      var response_2 = await http.delete(url_2, body: new_sm);
+      print(response_2.body);
+      print("\nPress Enter to continue");
+      stdin.readLineSync();
+    } else if (choice > limit) {
       print("Enter unrecognised\nPress Enter to continue");
       stdin.readLineSync();
     }
-  } while (enter != 'E' && choice == 0);
+  } while (choice != 0);
 }
