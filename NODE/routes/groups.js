@@ -115,12 +115,15 @@ router.post('/add_member', async(req, res, next) =>{
 /* Create a new group */
 router.post('/create_group', async(req, res, next) =>{
   const query={
-    text : 'INSERT INTO groups(g_name,g_u_id) VALUES($1,$2)',
+    text : 'INSERT INTO groups(g_name,g_u_id) VALUES($1,$2) RETURNING g_id',
     values : [req.query.group,req.query.owner],
   }
   pool.query(query,(err,rows) =>  {
     if (err) throw err;
-    return res.send("Groups " +req.query.group + " has been succesfully created");
+    return res.send({
+      response : "Groups " +req.query.group + " has been succesfully created",
+      id_group : rows.rows[0].g_id,
+    });
   })
 });
 

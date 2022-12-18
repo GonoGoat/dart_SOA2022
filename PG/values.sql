@@ -4,7 +4,9 @@ VALUES
   ('Yuli','Anderson','maecenas.malesuada.fringilla@hotmail.org','vel','0','2021-10-09'),
   ('Kylie','Hooper','sem.magna@protonmail.ca','In','0',NULL),
   ('Ila','Wilkerson','fringilla.donec@outlook.edu','suscipit','0','2021-10-09'),
-  ('Nigel','Ford','sodales.at@google.com','imperdiet,','1',NULL);
+  ('Nigel','Ford','sodales.at@google.com','imperdiet,','1',NULL),
+  ('Thomas','Coppens','thom.copp@gmail.com','1234','1',NULL),
+  ('User', 'Standard','standard.user@gmail.com','user1234', '0', '2022-12-17');
 
 INSERT INTO instruments(i_name)
 VALUES
@@ -36,17 +38,19 @@ insert into groups (g_u_id, g_name)
 values
   (4, 'Mayert Inc'),
   (3, 'Paucek-Lowe'),
-  (3, 'C.G-Murphy');
+  (3, 'C.G-Murphy'),
+  (2, 'HP Song');
 
 insert into news (n_title, n_text, n_date, n_u_id) values ('bibendum felis sed interdum', 'semper est quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis', '2022-03-09 10:28:00', 5);
 insert into news (n_title, n_text, n_date, n_u_id) values ('est risus auctor sed', 'justo aliquam quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor', '2022-07-08 16:57:01', 1);
 insert into news (n_title, n_text, n_date, n_u_id) values ('ultrices aliquet maecenas leo', 'adipiscing lorem vitae mattis nibh ligula nec sem duis aliquam convallis nunc proin at turpis', '2022-03-26 06:35:23', 2);
 
-insert into alerts (a_n_id,a_u_id) values (1,1),(1,3),(1,4),(2,1),(3,1),(2,3),(3,3),(2,4),(3,4),(3,5);
+insert into alerts (a_n_id,a_u_id) values (1,1),(1,3),(1,4),(2,1),(3,1),(2,3),(3,3),(2,4),(3,4),(3,5),(1,7),(2,7),(3,7),(4,7),(6,7),(7,7);
 
 insert into requests (r_u_id, r_g_id) values (5, 1);
 insert into requests (r_u_id, r_g_id) values (4, 2);
 insert into requests (r_u_id, r_g_id) values (5, 3);
+INSERT INTO requests (r_u_id,r_g_id) VALUES (7,1),(7,2),(7,3),(7,4);
 
 INSERT INTO groups_users(gu_g_id,gu_u_id)
 VALUES 

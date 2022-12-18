@@ -259,10 +259,12 @@ Future Creation(String new_group) async {
   final create_group = {'group': new_group, 'owner': curent_user.toString()};
   var response = await http
       .post(Uri.http('localhost:3000', '/groups/create_group', create_group));
-  print(response.body + "\n");
+  var res = jsonDecode(response.body);
+  print(res['response'] + "\n");
   print("Press Enter to continue");
   stdin.readLineSync();
   name_group = new_group;
+  id_group = res['id_group'];
   groups = {'select': name_group};
   await Interact_user();
 }

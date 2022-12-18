@@ -5,6 +5,8 @@ import 'dart:io';
 //To save auth
 int curent_user = 0;
 
+String? start_enter = null;
+
 String? enter = null;
 
 int limit = 0;
@@ -14,8 +16,8 @@ Future Start(int id_user) async {
   do {
     print(
         "Enter the section you want manage :\n\tC : Create admin\n\tG : Groups\n\tI : Instrument\n\tN : News\n\tS : SM\n\tE: Exit admin section");
-    enter = stdin.readLineSync()!;
-    switch (enter) {
+    start_enter = stdin.readLineSync()!;
+    switch (start_enter) {
       case 'C':
         await Create_admin();
         break;
@@ -37,7 +39,7 @@ Future Start(int id_user) async {
         print("Enter unrecognize\nPress enter to continue");
         stdin.readLineSync()!;
     }
-  } while (enter != 'E');
+  } while (start_enter != 'E');
 }
 
 Future Create_admin() async {
@@ -54,9 +56,9 @@ Future Create_admin() async {
     body['lname'] = stdin.readLineSync()!;
 
     print("Enter the password\n");
-    stdin.echoMode = false;
+    stdin.echoMode = false; //Must be in comment for the test
     body['password'] = stdin.readLineSync()!;
-    stdin.echoMode = true;
+    stdin.echoMode = true; //Must be in comment for the test
 
     res = await http.post(Uri.http('localhost:3000', '/admin/signup'),
         body: body);

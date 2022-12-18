@@ -40,22 +40,23 @@ Future login() async {
     body['mail'] = stdin.readLineSync()!;
 
     print("Enter your password\n");
-    stdin.echoMode = false;
+    stdin.echoMode = false; //Must be in comment for the test
     body['password'] = stdin.readLineSync()!;
-    stdin.echoMode = true;
+    stdin.echoMode = true; //Must be in comment for the test
 
     res =
         await http.post(Uri.http('localhost:3000', '/users/login'), body: body);
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
-      print("Authentification succeeded ! Welcome on SM Reader ${data['fname']} ${data['lname']}\n");
+      print(
+          "Authentification succeeded ! Welcome on SM Reader ${data['fname']} ${data['lname']}\n");
       if (data['isadmin']) {
         print("You are logged in with administrator privileges.\n");
       }
       return {
-        'id' : data['id'],
-        'isadmin' : data['isadmin'],
-        'hasPaid' : data['hasPaid']
+        'id': data['id'],
+        'isadmin': data['isadmin'],
+        'hasPaid': data['hasPaid']
       };
     }
     print("Authentification failed ! Wrong email address and/or password");
@@ -92,12 +93,7 @@ Future logout() async {
 }
 
 Future pay(int id) async {
-  var body = {
-    'pin' : '',
-    'key' : '',
-    'exp' : '',
-    'id' : id.toString()
-  };
+  var body = {'pin': '', 'key': '', 'exp': '', 'id': id.toString()};
   var res;
   do {
     print("Enter your credit card ID\n");
@@ -111,11 +107,12 @@ Future pay(int id) async {
     body['pin'] = stdin.readLineSync()!;
     stdin.echoMode = true;
 
-    res = await http.post(Uri.http('localhost:3000','/users/pay'),body : body);
+    res = await http.post(Uri.http('localhost:3000', '/users/pay'), body: body);
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body);
       if (data) {
-        print("Payment sucessful ! Please log in again to access our platform.");
+        print(
+            "Payment sucessful ! Please log in again to access our platform.");
         return true;
       }
     }

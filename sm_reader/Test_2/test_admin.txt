@@ -1,0 +1,76 @@
+L
+thom.copp@gmail.com
+1234
+E
+A
+C
+new.admin@outlook.fr
+Admin
+New
+adMIN
+G
+5
+Y
+
+I
+C
+Nouveau
+
+M
+12
+U
+Nouvel instrument
+
+12
+D
+D
+
+0
+E
+N
+C
+New news
+This is a new news
+
+M
+4
+U
+Modified News
+This is a news which was modified
+
+M
+4
+D
+
+E
+S
+C
+New SM
+sm_file.mei
+
+1
+
+0
+
+M
+10
+U
+Modified SM
+sm_new.mei
+A
+2
+
+0
+D
+2
+
+0
+E
+10
+D
+
+0
+E
+E
+E
+E

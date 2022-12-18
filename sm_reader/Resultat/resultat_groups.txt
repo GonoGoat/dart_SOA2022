@@ -1,0 +1,176 @@
+=====================================================
+
+Welcome to SM Reader !
+What would you like to do ?
+	R : Sign up
+	L : Login
+	S : List the available SM
+
+Enter your email
+
+Enter your password
+
+Authentification succeeded ! Welcome on SM Reader User Standard
+
+You have 0 notification(s) and 3 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+What part of the app would you like to access ?
+	L : Logout
+	G : Group
+	N : News
+	S : SM
+	O : Notifications
+	E : To leave
+What do you want to do ?
+	L : List all existings groups
+	G : List groups you are members
+	O : List groups you own
+	C : Create a New group
+	E : Exit the section group
+All existing group : 
+
+	Group ID : 1 Group name : Mayert Inc
+
+	Group ID : 2 Group name : Paucek-Lowe
+
+	Group ID : 3 Group name : C.G-Murphy
+
+	Group ID : 4 Group name : HP Song
+
+Enter '0' to exit the list Groups or Enter the ID of the group that you want see members
+
+The owner of the group Mayert Inc is Ila Wilkerson
+
+Members of the groupe Mayert Inc : 
+
+	Firstname : Yuli Last name : Anderson
+
+	Firstname : Kylie Last name : Hooper
+
+	Firstname : User Last name : Standard
+
+	Group ID : 1 Group name : Mayert Inc
+
+	Group ID : 2 Group name : Paucek-Lowe
+
+	Group ID : 3 Group name : C.G-Murphy
+
+	Group ID : 4 Group name : HP Song
+
+Enter '0' to exit the list Groups or Enter the ID of the group that you want see members
+
+What do you want to do ?
+	L : List all existings groups
+	G : List groups you are members
+	O : List groups you own
+	C : Create a New group
+	E : Exit the section group
+Group you are member of :
+
+	Group ID : 1 Group name : Mayert Inc
+
+Enter '0' to exit the list Groups or Enter the ID of the group that you want see members
+
+The owner of the group Mayert Inc is Ila Wilkerson
+
+Members of the groupe Mayert Inc : 
+
+	Firstname : Yuli Last name : Anderson
+
+	Firstname : Kylie Last name : Hooper
+
+	Firstname : User Last name : Standard
+
+	Group ID : 1 Group name : Mayert Inc
+
+Enter '0' to exit the list Groups or Enter the ID of the group that you want see members
+
+What do you want to do ?
+	L : List all existings groups
+	G : List groups you are members
+	O : List groups you own
+	C : Create a New group
+	E : Exit the section group
+Enter a name for the new group
+
+Confirm the name of the group : Dynamit co 
+	A : Accept
+	C : Cancel
+
+Groups Dynamit co has been succesfully created
+
+Press Enter to continue
+Would you like to add a user to Dynamit co 
+	Y : Yes
+	 N : No
+
+Enter the Firstname or Lastname of the user to add or press enter to exit 
+
+User with Her in their First or Last-name
+	User ID : 1 Firstname : Hermione Last name : Hebert
+
+Enter the ID of the user you want to add or '0' to Exit
+User has been succesfully added
+
+Press Enter to continue
+Would you like to add a user to Dynamit co 
+	Y : Yes
+	 N : No
+
+What do you want to do ?
+	L : List all existings groups
+	G : List groups you are members
+	O : List groups you own
+	C : Create a New group
+	E : Exit the section group
+Group wich you are the owner :
+
+	Group ID : 1 Group name : Dynamit co
+
+Enter '0' to exit the list Groups or Enter the ID of the group that you want see members
+
+The owner of the group Dynamit co is User Standard
+Nothing to Show
+Press Enter to continue
+Would you like to add a user to Dynamit co 
+	Y : Yes
+	 N : No
+
+Enter the Firstname or Lastname of the user to add or press enter to exit 
+
+User with Anderson in their First or Last-name
+	User ID : 1 Firstname : Yuli Last name : Anderson
+
+Enter the ID of the user you want to add or '0' to Exit
+User has been succesfully added
+
+Press Enter to continue
+Would you like to add a user to Dynamit co 
+	Y : Yes
+	 N : No
+
+	Group ID : 1 Group name : Dynamit co
+
+Enter '0' to exit the list Groups or Enter the ID of the group that you want see members
+
+What do you want to do ?
+	L : List all existings groups
+	G : List groups you are members
+	O : List groups you own
+	C : Create a New group
+	E : Exit the section group
+You have 0 notification(s) and 3 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+What part of the app would you like to access ?
+	L : Logout
+	G : Group
+	N : News
+	S : SM
+	O : Notifications
+	E : To leave
