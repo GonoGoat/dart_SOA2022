@@ -14,7 +14,7 @@ CREATE TABLE instruments (
 CREATE TABLE sm (
     s_id SERIAL PRIMARY KEY, -- SM ID
     s_name VARCHAR(150) NOT NULL, -- SM name
-    s_file varchar(100) UNIQUE NOT NULL -- SM file location
+    s_file TEXT NOT NULL -- SM file normally UNIQUE but we don't have enough mei to do it
 );
 CREATE TABLE groups (
     g_id SERIAL PRIMARY KEY, -- Group ID
