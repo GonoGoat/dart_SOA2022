@@ -1,89 +1,69 @@
-//import 'dart:ffi';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
-var news = [
-  ["1", "Hello", "Bonjour tout le monde \nJe m'appelle Thomas"],
-  ["2", "Bonjour", "Hello everyone \nMy name is Thomas"],
-  ["3", "Vide", "Ceci est un texte vide"]
-];
+int limit = 0;
+int select_news = 0;
 
-void Start() {
-  int a = 0;
-  int b = 0;
+var res_1;
 
+Future Start() async {
   do {
-    b = List();
-    a = Details(b);
-  } while (a == 0);
-}
+    limit = 0;
+    var url = Uri.http('localhost:3000', '/news');
+    var response = await http.get(url);
 
-int List() {
-  int row = news.length;
-
-  for (int i = 0; i < row; i++) {
-    print("id de la news : " +
-        news[i][0] +
-        " Titre de la news : " +
-        news[i][1] +
-        "\n");
-  }
-  print(
-      "\nVeuillez rentrer le numero de l'id de la news que vous voulez lire ou 0 pour sortir : ");
-  try {
-    return int.parse(stdin.readLineSync()!);
-  } catch (e) {
-    return -1;
-  }
-}
-
-int Details(int choice) {
-  switch (choice) {
-    case -1:
-      print("\nValeur non prise en charge\n");
-      sleep(Duration(seconds: 2));
+    if (response.body == "") {
+      print("Nothing to Show\nPress Enter to continue");
+      stdin.readLineSync();
       return 0;
-    case 0:
-      return 1;
-    default:
-      print("\nid de la news : " +
-          news[choice - 1][0] +
-          " Titre de la news : " +
-          news[choice - 1][1] +
-          "\n");
-      print("Information : " + news[choice - 1][2] + "\n");
-      return 0;
-  }
+    }
+
+    res_1 = jsonDecode(response.body);
+
+    print("News : \n");
+
+    res_1.forEach((news) => print("\tNews ID : " +
+        (limit += 1).toString() +
+        " Title : " +
+        news['n_title'] +
+        "\n"));
+    await Details();
+  } while (select_news != 0);
 }
 
-/*void main() {
-  int a = 0;
-  int b = 0;
+Future Details() async {
+  print("Enter the ID you want details or 0 to leave the section News");
+  select_news = int.parse(stdin.readLineSync()!);
+  if (select_news > 0 && select_news <= limit) {
+    var res = res_1;
+    assert(res is List);
+    var name = res[select_news - 1];
+    assert(name is Map);
+    var id_news = name['n_id'];
+    var news_select = {'select': id_news.toString()};
 
-  int row = news.length;
+    var url = Uri.http('localhost:3000', '/news/detail', news_select);
+    var response = await http.get(url);
 
-  do {
-    for (int i = 0; i < row; i++) {
-      print("id de la news : " +
-          news[i][0] +
-          " Titre de la news : " +
-          news[i][1]);
+    if (response.body == "") {
+      print("Nothing to Show\nPress Enter to continue");
+      stdin.readLineSync();
+      return 0;
     }
-    print("");
-    print(
-        "Veuillez rentrer le numero de l'id de la news que vous voulez lire ou 0 pour sortir : ");
-    b = int.parse(stdin.readLineSync()!);
-    switch (b) {
-      case 0:
-        a = 1;
-        break;
-      default:
-        print("id de la news : " +
-            news[b - 1][0] +
-            " Titre de la news : " +
-            news[b - 1][1]);
-        print("Information : " + news[b - 1][2]);
-        print("");
-        break;
-    }
-  } while (a == 0);
-}*/
+
+    var res_2 = jsonDecode(response.body);
+    res_2.forEach((news) => print("News Title : " +
+        news['n_title'] +
+        "\n" +
+        "Create on :" +
+        news['n_date'] +
+        "\n\t" +
+        news['n_text']));
+
+    print("Press enter to come back");
+    stdin.readLineSync();
+  } else if (select_news > limit) {
+    print("Wrong value");
+  }
+}

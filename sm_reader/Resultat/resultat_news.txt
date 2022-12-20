@@ -1,0 +1,124 @@
+=====================================================
+
+Welcome to SM Reader !
+What would you like to do ?
+	R : Sign up
+	L : Login
+	S : List the available SM
+
+Enter your email
+
+Enter your password
+
+Authentification succeeded ! Welcome on SM Reader User Standard
+
+You have 0 notification(s) and 3 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+What part of the app would you like to access ?
+	L : Logout
+	G : Group
+	N : News
+	S : SM
+	O : Notifications
+	E : To leave
+News : 
+
+	News ID : 1 Title : bibendum felis sed interdum
+
+	News ID : 2 Title : est risus auctor sed
+
+	News ID : 3 Title : ultrices aliquet maecenas leo
+
+	News ID : 4 Title : News by Thomas
+
+	News ID : 5 Title : test_2
+
+	News ID : 6 Title : Thomas
+
+	News ID : 7 Title : Just a test
+
+	News ID : 8 Title : Test2
+
+	News ID : 9 Title : test_4
+
+	News ID : 10 Title : test_4
+
+	News ID : 11 Title : test_5
+
+	News ID : 12 Title : test_6
+
+	News ID : 13 Title : Test_7
+
+	News ID : 14 Title : Test_8
+
+	News ID : 15 Title : Test_9
+
+	News ID : 16 Title : Test_9
+
+	News ID : 17 Title : test_10
+
+	News ID : 18 Title : Test_11
+
+	News ID : 19 Title : Test_12
+
+Enter the ID you want details or 0 to leave the section News
+News Title : bibendum felis sed interdum
+Create on :09-03-2022 10:28
+	semper est quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis
+Press enter to come back
+News : 
+
+	News ID : 1 Title : bibendum felis sed interdum
+
+	News ID : 2 Title : est risus auctor sed
+
+	News ID : 3 Title : ultrices aliquet maecenas leo
+
+	News ID : 4 Title : News by Thomas
+
+	News ID : 5 Title : test_2
+
+	News ID : 6 Title : Thomas
+
+	News ID : 7 Title : Just a test
+
+	News ID : 8 Title : Test2
+
+	News ID : 9 Title : test_4
+
+	News ID : 10 Title : test_4
+
+	News ID : 11 Title : test_5
+
+	News ID : 12 Title : test_6
+
+	News ID : 13 Title : Test_7
+
+	News ID : 14 Title : Test_8
+
+	News ID : 15 Title : Test_9
+
+	News ID : 16 Title : Test_9
+
+	News ID : 17 Title : test_10
+
+	News ID : 18 Title : Test_11
+
+	News ID : 19 Title : Test_12
+
+Enter the ID you want details or 0 to leave the section News
+You have 0 notification(s) and 3 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+What part of the app would you like to access ?
+	L : Logout
+	G : Group
+	N : News
+	S : SM
+	O : Notifications
+	E : To leave

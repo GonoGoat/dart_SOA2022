@@ -3,6 +3,10 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 
 var usersRouter = require('./routes/users');
+var groupsRouter = require('./routes/groups');
+var newsRouter = require('./routes/news');
+var notificationsRouter = require('./routes/notifications');
+var adminRouter = require('./routes/admin');
 var smRouter = require('./routes/sm');
 var bankRouter = require('./routes/bank');
 var instrumentsRouter = require("./routes/instruments")
@@ -14,6 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/users', usersRouter);
+app.use('/groups',groupsRouter);
+app.use('/news',newsRouter);
+app.use('/notifications',notificationsRouter);
+app.use('/admin',adminRouter);
 app.use('/sm', smRouter);
 app.use('/bank',bankRouter);
 app.use("/instruments",instrumentsRouter);

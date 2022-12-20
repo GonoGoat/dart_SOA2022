@@ -14,7 +14,7 @@ CREATE TABLE instruments (
 CREATE TABLE sm (
     s_id SERIAL PRIMARY KEY, -- SM ID
     s_name VARCHAR(150) NOT NULL, -- SM name
-    s_file varchar(100) UNIQUE NOT NULL -- SM file location
+    s_file TEXT NOT NULL -- SM file normally UNIQUE but we don't have enough mei to do it
 );
 CREATE TABLE groups (
     g_id SERIAL PRIMARY KEY, -- Group ID
@@ -33,12 +33,12 @@ CREATE TABLE news (
     CONSTRAINT fk_n_u_id FOREIGN KEY (n_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE alerts (
-    a_id SERIAL PRIMARY KEY, -- Alert ID
-    a_text TEXT NOT NULL, -- Alert text
-    a_date TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NOW() NOT NULL, -- Alert publishing time
-    a_u_id INT NOT NULL, -- User receiving the alert
+    a_n_id INT NOT NULL, --New News generating notification
+    a_u_id INT NOT NULL, -- Receiver of the notifictaion
 
-    CONSTRAINT fk_a_u_id FOREIGN KEY (a_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT fk_a_n_id FOREIGN KEY (a_n_id) REFERENCES news(n_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_a_u_id FOREIGN KEY (a_u_id) REFERENCES users(u_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (a_n_id,a_u_id)
 );
 CREATE TABLE requests (
     r_u_id INT NOT NULL, -- Rceiver of the request
