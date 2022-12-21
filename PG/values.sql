@@ -9669,7 +9669,7 @@ insert into news (n_title, n_text, n_date, n_u_id) values ('bibendum felis sed i
 insert into news (n_title, n_text, n_date, n_u_id) values ('est risus auctor sed', 'justo aliquam quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor', '2022-07-08 16:57:01', 1);
 insert into news (n_title, n_text, n_date, n_u_id) values ('ultrices aliquet maecenas leo', 'adipiscing lorem vitae mattis nibh ligula nec sem duis aliquam convallis nunc proin at turpis', '2022-03-26 06:35:23', 2);
 
-insert into alerts (a_n_id,a_u_id) values (1,1),(1,3),(1,4),(2,1),(3,1),(2,3),(3,3),(2,4),(3,4),(3,5),(1,7),(2,7),(3,7),(4,7),(6,7),(7,7);
+insert into alerts (a_n_id,a_u_id) values (1,1),(1,3),(1,4),(2,1),(3,1),(2,3),(3,3),(2,4),(3,4),(3,5),(1,7),(2,7),(3,7);
 
 insert into requests (r_u_id, r_g_id) values (5, 1);
 insert into requests (r_u_id, r_g_id) values (4, 2);
@@ -9686,7 +9686,7 @@ VALUES
 
 insert into groups_sm (gs_g_id, gs_s_id) values (1, 8);
 insert into groups_sm (gs_g_id, gs_s_id) values (1, 4);
-insert into groups_sm (gs_g_id, gs_s_id) values (1, 3);
+insert into groups_sm (gs_g_id, gs_s_id) values (1, 6);
 insert into groups_sm (gs_g_id, gs_s_id) values (3, 8);
 
 insert into sm_instruments (si_i_id, si_s_id) values (2, 1);

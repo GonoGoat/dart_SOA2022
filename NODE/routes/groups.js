@@ -15,6 +15,23 @@ router.get('/', function(req, res, next) {
   })
 });
 
+/* GET groups we are members or that we own */
+router.get('/me', function(req, res, next) {
+  const query={
+    text : 'select * from groups where g_u_id = $1 union select g_id, g_name, g_u_id from groups join groups_users on gu_g_id = g_id where gu_u_id = $1',
+    values : [req.query.in],
+  }
+  pool.query(query,(err,rows) =>  {
+    if (err) throw err;
+    if(rows.rows.length>0){
+      return res.send(rows.rows);
+    }
+    else{
+      return res.send("");
+    }
+  })
+});
+
 /* GET groups we are members */
 router.get('/member_group', function(req, res, next) {
   const query={
@@ -127,5 +144,15 @@ router.post('/create_group', async(req, res, next) =>{
   })
 });
 
+router.post('/set_fav', async(req, res, next) =>{
+  const query={
+    text : 'INSERT INTO groups_sm(gs_g_id,gs_s_id) VALUES($1,$2)',
+    values : [req.body.g_id,req.body.s_id]
+  }
+  pool.query(query,(err,rows) =>  {
+    if (err) throw err;
+    return res.send(true);
+  })
+});
 
 module.exports = router;
