@@ -100,10 +100,13 @@ router.post('/create_sm', async(req, res, next) => {
     values : [req.body.name,req.body.file]
   }
   pool.query(query,(err,rows) =>  {
+    if (err) throw err;
+    else{
     return res.send({
         response : "The sm has been succesfully created",
         id_sm : rows.rows[0].s_id,
       });
+    }
     
   })
 });

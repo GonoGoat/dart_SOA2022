@@ -317,7 +317,8 @@ Future Manage_sm() async {
 
 Future Create_sm() async {
   var sm_name;
-  var sm_file;
+  String sm_file = "";
+  var new_enter;
   do {
     print("Enter a name : ");
     sm_name = stdin.readLineSync();
@@ -325,7 +326,10 @@ Future Create_sm() async {
 
   do {
     print("Enter a file name : ");
-    sm_file = stdin.readLineSync();
+    do {
+      new_enter = stdin.readLineSync()!;
+      sm_file = sm_file + new_enter + '\n';
+    } while (new_enter != "");
   } while (sm_file == "");
 
   final create = {'name': sm_name.toString(), 'file': sm_file.toString()};
@@ -431,7 +435,7 @@ Future Update_sm(sm) async {
   var old_name;
   var old_file;
   var new_name;
-  var new_file;
+  String? new_file = null;
 
   var url = Uri.http('localhost:3000', '/admin/sm/detail', sm);
   var res = await http.get(url);
@@ -441,7 +445,7 @@ Future Update_sm(sm) async {
 
   for (int i = 0; i < data.length; i++) {
     print(
-        "SM ${i + 1}\n\tInstruments : ${data[i]['instruments'].join(", ")}\n\tSong : ${data[i]['s_name']}\n");
+        "SM ${i + 1}\n\tInstruments : ${data[i]['instruments'].join(", ")}\n\tSong : ${data[i]['s_name']}\n\tFile : ${data[i]['s_file']}");
   }
 
   old_name = data[0]['s_name'];
@@ -454,7 +458,9 @@ Future Update_sm(sm) async {
   }
 
   print("Enter a file (let empty to keep the existant) : ");
-  new_file = stdin.readLineSync();
+  do {
+    new_file = new_file! + stdin.readLineSync()! + '\n';
+  } while (stdin.readLineSync() != "");
   if (new_file == "") {
     new_file = old_file;
   }
