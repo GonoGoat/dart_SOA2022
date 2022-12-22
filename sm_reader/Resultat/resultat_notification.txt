@@ -1,0 +1,77 @@
+=====================================================
+
+Welcome to SM Reader !
+What would you like to do ?
+	R : Sign up
+	L : Login
+	S : List the available SM
+
+Enter your email
+
+Enter your password
+
+Authentification succeeded ! Welcome on SM Reader User Standard
+
+You have 3 notification(s) and 4 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+List of notification
+
+	Date : 09-03-2022 10:28
+ Text : 
+A news as arrived : bibendum felis sed interdum
+
+
+	Date : 08-07-2022 16:57
+ Text : 
+A news as arrived : est risus auctor sed
+
+
+	Date : 26-03-2022 06:35
+ Text : 
+A news as arrived : ultrices aliquet maecenas leo
+
+
+Press enter to come back
+You have 0 notification(s) and 4 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+List of Invitation
+
+	Invitation number : 1 FROM : Mayert Inc
+
+	Invitation number : 2 FROM : Paucek-Lowe
+
+	Invitation number : 3 FROM : C.G-Murphy
+
+	Invitation number : 4 FROM : HP Song
+
+Do you want to accept or decline an invitation ?
+ Enter is number or enter 0 to leave
+
+Enter
+	A : Accept
+	D : Decline
+	E : Come back
+Invitation has been succesfully accepted
+
+Press Enter to continue
+Do you want to accept or decline an invitation ?
+ Enter is number or enter 0 to leave
+
+You have 0 notification(s) and 3 invitation(s).
+Enter 
+	N : See Notification
+	I : See Invitation
+	E : Exit
+What part of the app would you like to access ?
+	L : Logout
+	G : Group
+	N : News
+	S : SM
+	O : Notifications
+	E : To leave

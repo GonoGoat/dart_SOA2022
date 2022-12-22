@@ -435,7 +435,8 @@ Future Update_sm(sm) async {
   var old_name;
   var old_file;
   var new_name;
-  String? new_file = null;
+  var new_enter;
+  String new_file = "";
 
   var url = Uri.http('localhost:3000', '/admin/sm/detail', sm);
   var res = await http.get(url);
@@ -459,7 +460,8 @@ Future Update_sm(sm) async {
 
   print("Enter a file (let empty to keep the existant) : ");
   do {
-    new_file = new_file! + stdin.readLineSync()! + '\n';
+    new_enter = stdin.readLineSync()!;
+    new_file = new_file + new_enter + '\n';
   } while (stdin.readLineSync() != "");
   if (new_file == "") {
     new_file = old_file;

@@ -227,7 +227,7 @@ Do you want to :
 	E : Exit
 Details about the news you will update
 News Title : New news
-Create on :17-12-2022 23:40
+Create on :22-12-2022 21:57
 	This is a new news
 Enter a title (let empty to keep the existant) : 
 Enter a text (let empty to keep the existant) : 
@@ -348,7 +348,7 @@ SM 3
 	Song : Daddy Yankee - Dura
 
 SM 4
-	Instruments : Trompette, Saxophone, Hautbois
+	Instruments : Trompette, Saxophone
 	Song : Alan Walker - Faded
 
 SM 5
@@ -384,6 +384,20 @@ Details about the sm you will update
 SM 1
 	Instruments : Piano
 	Song : New SM
+	File : <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.music-encoding.org/ns/mei"
+  meiversion="4.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Walzer G-Dur <titlePart type="subordinate">an electronic transcription</titlePart> </title>
+      </titleStmt>
+    </fileDesc>	
+  </meiHead>
+</mei>
+
 
 Enter a name (let empty to keep the existant) : 
 Enter a file (let empty to keep the existant) : 
@@ -477,7 +491,7 @@ SM 3
 	Song : Daddy Yankee - Dura
 
 SM 4
-	Instruments : Trompette, Saxophone, Hautbois
+	Instruments : Trompette, Saxophone
 	Song : Alan Walker - Faded
 
 SM 5
@@ -525,7 +539,7 @@ SM 3
 	Song : Daddy Yankee - Dura
 
 SM 4
-	Instruments : Trompette, Saxophone, Hautbois
+	Instruments : Saxophone, Trompette
 	Song : Alan Walker - Faded
 
 SM 5
