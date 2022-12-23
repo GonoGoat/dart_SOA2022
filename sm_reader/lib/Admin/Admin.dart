@@ -60,7 +60,7 @@ Future Create_admin() async {
     body['password'] = stdin.readLineSync()!;
     stdin.echoMode = true; //Must be in comment for the test
 
-    res = await http.post(Uri.http('localhost:3000', '/admin/signup'),
+    res = await http.post(Uri.http('localhost:3000', '/users/create_admin'),
         body: body);
     if (res.statusCode == 200) {
       print("The account has been successfully created !");
@@ -118,7 +118,7 @@ Future Delete_group(groups) async {
     switch (enter) {
       case 'Y':
         var response = await http
-            .delete(Uri.http('localhost:3000', 'admin/delete_group', groups));
+            .delete(Uri.http('localhost:3000', '/groups/delete_group', groups));
         print(response.body + "\n");
         print("Press Enter to continue");
         stdin.readLineSync();
@@ -171,12 +171,12 @@ Future Create_news() async {
     'text': new_text.toString(),
     'admin': curent_user.toString()
   };
-  var url_1 = Uri.http('localhost:3000', '/admin/create_news', create);
-  var response_1 = await http.post(url_1);
+  var url_1 = Uri.http('localhost:3000', '/news/create_news');
+  var response_1 = await http.post(url_1, body: create);
   var res_1 = jsonDecode(response_1.body);
 
   final trigger = {'id_news': res_1['id_news'].toString()};
-  var url_2 = Uri.http('localhost:3000', '/admin/create_news/trigger');
+  var url_2 = Uri.http('localhost:3000', '/news/create_news/trigger');
   await http.post(url_2, body: trigger);
 
   print(res_1['response'].toString());
@@ -279,7 +279,7 @@ Future Update_news(news) async {
     'text': new_text.toString(),
     'admin': curent_user.toString()
   };
-  var url_2 = Uri.http('localhost:3000', '/admin/update_news');
+  var url_2 = Uri.http('localhost:3000', '/news/update_news');
   var response_2 = await http.put(url_2, body: update);
   print(response_2.body);
   print("\nPress Enter to continue");
@@ -288,7 +288,7 @@ Future Update_news(news) async {
 
 Future Delete_news(news) async {
   var response =
-      await http.delete(Uri.http('localhost:3000', '/admin/delete_news', news));
+      await http.delete(Uri.http('localhost:3000', '/news/delete_news', news));
   print(response.body + "\n");
   print("Press Enter to continue");
   stdin.readLineSync();
@@ -333,7 +333,7 @@ Future Create_sm() async {
   } while (sm_file == "");
 
   final create = {'name': sm_name.toString(), 'file': sm_file.toString()};
-  var url_1 = Uri.http('localhost:3000', '/admin/create_sm');
+  var url_1 = Uri.http('localhost:3000', '/sm/create_sm');
   var response_1 = await http.post(url_1, body: create);
   var res_1 = jsonDecode(response_1.body);
 
@@ -341,7 +341,7 @@ Future Create_sm() async {
   print("\nPress Enter to continue");
   stdin.readLineSync();
 
-  var url_2 = Uri.http('localhost:3000', '/admin/instrument');
+  var url_2 = Uri.http('localhost:3000', '/instruments/');
   var response_2 = await http.get(url_2);
 
   if (response_2.body == "") {
@@ -372,7 +372,7 @@ Future Create_sm() async {
         'id_instrument': id_instru.toString()
       };
 
-      var url_3 = Uri.http('localhost:3000', '/admin/create_sm/instrument');
+      var url_3 = Uri.http('localhost:3000', '/sm/create_sm/instrument');
       var response_3 = await http.post(url_3, body: new_sm);
       print(response_3.body);
       print("\nPress Enter to continue");
@@ -391,7 +391,7 @@ Future Modify_sm() async {
   print("SM : \n");
 
   do {
-    var res = await http.get(Uri.http('localhost:3000', '/admin/sm'));
+    var res = await http.get(Uri.http('localhost:3000', '/sm/all_sm'));
     var data = jsonDecode(res.body);
     for (int i = 0; i < data.length; i++) {
       print(
@@ -438,7 +438,7 @@ Future Update_sm(sm) async {
   var new_enter;
   String new_file = "";
 
-  var url = Uri.http('localhost:3000', '/admin/sm/detail', sm);
+  var url = Uri.http('localhost:3000', '/sm/detail', sm);
   var res = await http.get(url);
 
   var data = jsonDecode(res.body);
@@ -473,7 +473,7 @@ Future Update_sm(sm) async {
     'file': new_file.toString()
   };
 
-  var url_2 = Uri.http('localhost:3000', '/admin/update_sm');
+  var url_2 = Uri.http('localhost:3000', '/sm/update_sm');
   var response_2 = await http.put(url_2, body: update);
   print(response_2.body);
 
@@ -498,15 +498,15 @@ Future Update_sm(sm) async {
 }
 
 Future Delete_sm(sm) async {
-  var response = await http
-      .delete(Uri.http('localhost:3000', '/admin/delete_sm'), body: sm);
+  var response =
+      await http.delete(Uri.http('localhost:3000', '/sm/delete_sm', sm));
   print(response.body + "\n");
   print("Press Enter to continue");
   stdin.readLineSync();
 }
 
 Future Add_instru(sm) async {
-  var url_2 = Uri.http('localhost:3000', '/admin/instrument');
+  var url_2 = Uri.http('localhost:3000', '/instruments/');
   var response_2 = await http.get(url_2);
 
   if (response_2.body == "") {
@@ -536,7 +536,7 @@ Future Add_instru(sm) async {
         'id_sm': sm['select'].toString(),
         'id_instrument': id_instru.toString()
       };
-      var url_3 = Uri.http('localhost:3000', '/admin/create_sm/instrument');
+      var url_3 = Uri.http('localhost:3000', '/sm/create_sm/instrument');
       var response_3 = await http.post(url_3, body: new_sm);
       print(response_3.body);
       print("\nPress Enter to continue");
@@ -551,7 +551,7 @@ Future Add_instru(sm) async {
 Future Del_instru(sm) async {
   int choice = 0;
   do {
-    var url_1 = Uri.http('localhost:3000', '/admin/sm/instrument/detail', sm);
+    var url_1 = Uri.http('localhost:3000', '/sm/instrument/detail', sm);
     var response_1 = await http.get(url_1);
 
     if (response_1.body == "") {
@@ -580,7 +580,7 @@ Future Del_instru(sm) async {
         'id_sm': sm['select'].toString(),
         'id_instrument': id_instru.toString()
       };
-      var url_2 = Uri.http('localhost:3000', '/admin/sm/instrument/delete');
+      var url_2 = Uri.http('localhost:3000', '/sm/instrument/delete');
       var response_2 = await http.delete(url_2, body: new_sm);
       print(response_2.body);
       print("\nPress Enter to continue");
@@ -619,8 +619,7 @@ Future Modify_instru() async {
     limit = 0;
 
     print("Instruments : \n");
-    var response =
-        await http.get(Uri.http('localhost:3000', '/admin/instrument'));
+    var response = await http.get(Uri.http('localhost:3000', '/instruments/'));
 
     if (response.body == "") {
       print("Nothing to Show\nPress Enter to continue");
@@ -684,7 +683,7 @@ Future Update_instru(instru) async {
     'name': new_name.toString(),
   };
 
-  var url = Uri.http('localhost:3000', '/admin/update_instru');
+  var url = Uri.http('localhost:3000', '/instruments/update_instru');
   var response = await http.put(url, body: update);
   print(response.body);
   print("Press Enter to continue");
@@ -700,8 +699,7 @@ Future Delete_instru(instru) async {
     switch (enter) {
       case 'D':
         var response = await http.delete(
-            Uri.http('localhost:3000', '/admin/delete_instru'),
-            body: instru);
+            Uri.http('localhost:3000', '/instruments/delete_instru', instru));
         print(response.body);
         print("Press Enter to continue");
         stdin.readLineSync();
@@ -725,7 +723,7 @@ Future Create_instru() async {
   final create = {
     'name': instru_name.toString(),
   };
-  var url = Uri.http('localhost:3000', '/admin/create_instru');
+  var url = Uri.http('localhost:3000', '/instruments/create_instru');
   var response = await http.post(url, body: create);
 
   print(response.body);

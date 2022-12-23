@@ -227,7 +227,7 @@ Do you want to :
 	E : Exit
 Details about the news you will update
 News Title : New news
-Create on :22-12-2022 21:57
+Create on :23-12-2022 11:12
 	This is a new news
 Enter a title (let empty to keep the existant) : 
 Enter a text (let empty to keep the existant) : 

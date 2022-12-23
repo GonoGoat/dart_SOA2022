@@ -61,6 +61,23 @@ router.post('/pay', function(req, res, next) {
   });
 });
 
+/*Create a new admin*/
+router.post('/create_admin', function(req, res, next) {
+  pool.query ('select * from users where u_mail = $1',[req.body.mail.toLowerCase()], (err,rows) => {
+    if (err) throw err;
+    if (rows.rows.length > 0) {
+      return res.send(false)
+    }
+    else {
+      pool.query ('insert into users (u_password,u_fname,u_lname,u_mail,u_isadmin) values ($1,$2,$3,$4,$5)',
+      [req.body.password,req.body.fname,req.body.lname,req.body.mail,true], (err,rows) => {
+        if (err) throw err;
+        return res.send(true)
+      })
+    }
+  })
+});
+
 //router.get('/admin',db.getAllAdminUsers);
 //router.get('/current', db.getCurrentUser);
 //router.get('/me',db.getUserInformation);

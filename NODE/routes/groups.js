@@ -155,4 +155,14 @@ router.post('/set_fav', async(req, res, next) =>{
   })
 });
 
+router.delete('/delete_group', async(req, res, next) => {
+  const query_delete={
+    text : 'DELETE FROM groups WHERE g_id=$1',
+    values : [req.query.select]
+  }
+  pool.query(query_delete,(err,rows) =>  {
+    return res.send("The groups has been succesfully deleted ");
+  })
+});
+
 module.exports = router;
