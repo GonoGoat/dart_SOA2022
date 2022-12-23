@@ -1,0 +1,35 @@
+=====================================================
+
+Welcome to SM Reader !
+What would you like to do ?
+	R : Sign up
+	L : Login
+	S : List the available SM
+	E : Exit the app
+
+Enter your email
+
+Enter your first name
+
+Enter your last name
+
+Enter your password
+
+Your account has been successfully created !
+What would you like to do ?
+	R : Sign up
+	L : Login
+	S : List the available SM
+	E : Exit the app
+
+Enter your email
+
+Enter your password
+
+Authentification succeeded ! Welcome on SM Reader Gauthier verschraegen
+
+It seems that your yearly subscription is not active. What do you want to do ?
+	L : Logout
+	P : Pay
+	E : Leave
+

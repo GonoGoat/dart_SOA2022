@@ -9660,7 +9660,7 @@ VALUES
 
 insert into groups (g_u_id, g_name)
 values
-  (4, 'Mayert Inc'),
+  (1, 'Mayert Inc'),
   (3, 'Paucek-Lowe'),
   (3, 'C.G-Murphy'),
   (2, 'HP Song');

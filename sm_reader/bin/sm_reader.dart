@@ -15,7 +15,7 @@ void main(List<String> arguments) async {
   do {
     if (user == null) {
       print(
-          "What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n");
+          "What would you like to do ?\n\tR : Sign up\n\tL : Login\n\tS : List the available SM\n\tE : Exit the app\n");
       menu = stdin.readLineSync()!;
       switch (menu) {
         case 'R':
